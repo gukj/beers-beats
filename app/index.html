@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="beersBeats">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>bears &amp; beats</title>
+
+    <!-- jQuery -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    <!-- tether for bootstrap js -->
+    <script src="bower_components/tether/dist/js/tether.js"></script>
+
+    <!-- Bootstrap CSS (NOT LOCAL) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <!-- Angular JavaScript including routing and resource modules  -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+
+    <!-- The application JavaScript code -->
+    <script src="js/app.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-12 mt-5">
+            <h1>Beers &amp; beats (in index)</h1>
+        </div>
+    </div>
+
+    <div class="container" ng-view></div>
+
+</body>
+
+</html>
