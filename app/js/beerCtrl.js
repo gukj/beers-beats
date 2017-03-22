@@ -1,7 +1,7 @@
 beersBeatsApp.controller('beerCtrl', function($scope, model){
 
-  /* funkar ej 
-  model.Beer.get({},function(data){
+/*  fungerar ej
+    model.Beer.get({},function(data){
     console.log(data);
     $scope.beer = data;
 

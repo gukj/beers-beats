@@ -5,9 +5,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	/* API CALLS */
 
 	//get beer
-	//this.Beer = $resource('http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
+	/*this.Beer = $resource('https://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
 
-	/*this.Beer = $resource('https://karlroos-systemet.p.mashape.com/country',{},{
+	//this.Beer = $resource('https://karlroos-systemet.p.mashape.com/country',{},{
     get: {
 			headers: {
 					'X-Mashape-Key': 'Qu9grxVNWpmshA4Kl9pTwyiJxVGUp1lKzrZjsnghQMkFkfA4LB'
