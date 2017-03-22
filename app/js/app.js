@@ -9,6 +9,9 @@ beersBeatsApp.config( [ '$routeProvider',
         when( '/search', {
             templateUrl: 'partials/searchView.html'
         } ).
+        when( '/beer', {
+            templateUrl: 'partials/beerView.html'
+        } ).
         otherwise( {
             redirectTo: '/home'
         } );
