@@ -4,28 +4,55 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	/* API CALLS */
 
-	//get beer
-	//this.Beer = $resource('https://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
-
-	this.Beer = $resource('https://karlroos-systemet.p.mashape.com/country',{},{
+	//get beer by name
+	// input name of beer
+	this.BeerByName = $resource('http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
     get: {
-			headers: {
-					'X-Mashape-Key': 'Qu9grxVNWpmshA4Kl9pTwyiJxVGUp1lKzrZjsnghQMkFkfA4LB'
-			},
       success: function(data) {
-        cb(data);
-        console.log("success";
-      }
+        cb(data.data);
+      },
       error: function(data) {
-      notifyObservers("error");
-        console.log("fail";
     }
     }
   });
 
-	//get beers given a country
+	// get beer by ID
+	//input id
+	this.BeerByID = $resource('http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
+    get: {
+      success: function(data) {
+        cb(data.data);
+      },
+      error: function(data) {
+    }
+    }
+  });
 
-	//get country given a beer
+	//get random beer
+	this.RandomBeer = $resource('http://api.brewerydb.com/v2/beer/random/?key=81f290d3c2a50e872349732640d52269',{},{
+    get: {
+      success: function(data) {
+        cb(data.data);
+      },
+      error: function(data) {
+    }
+    }
+  });
+
+	//get beers given a country (category)
+
+	//get country (category) given a beer
+	//input name of beer
+	this.BeerCategory = $resource('http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
+		get: {
+			success: function(data) {
+				cb(data.data[0].style.categoryId)
+			},
+			error: function(data) {
+		}
+		}
+	});
+
 
 	//get playlist given country
 
@@ -34,7 +61,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	/* MODEL */
 
-	//given a beer, get its country and retun playlist
+	//given a beer, get its country and return playlist
 
 	//given a playlist, get its country and return list of beers
 
