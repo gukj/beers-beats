@@ -1,5 +1,16 @@
 
-beer view
+
 <!--Beer view, showing only the beers selected in the previous views, as well as some information about each beer
 
 Julia vH-->
+
+<h2>Your beers</h2>
+<hr>
+
+<div ng-repeat="beer in beers track by $index">
+<h3>{{beer.nameDisplay}}</h3>
+<h4>{{beer.style.category.name}} </h4>
+{{beer.style.description}}
+<hr>
+
+</div>

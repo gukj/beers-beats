@@ -4,6 +4,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	var _this = this;
 
+	var selectedBeers = [];
+
 	/* API CALLS */
 
 //get beer by name
@@ -37,6 +39,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
+				console.log(tmp);
 				return tmp.data;
 			}
     }
@@ -58,6 +61,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 		}
 	});
 
+	//TODO get image of a beer
+
 
 	//get playlist given country
 
@@ -70,7 +75,25 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//given a playlist, get its country and return list of beers
 
-	//add beers to BAG/favourites
+	//add beer object to BAG/favourites
+	this.selectBeer = function(beer){
+		selectedBeers.push(beer);
+	}
+
+	//remove beers to BAG/favourites
+	this.deselectBeer = function(beerID){
+		for (var i=0; i<selectedBeers.length; i++){
+			if(selectedBeers[i].id === beerID){
+				selectedBeers.splice(i,1);
+				return;
+			}
+		}
+	}
+
+	//return all selected beer objects
+	this.getSelectedBeers = function(){
+		return selectedBeers;
+	}
 
 	//add playlists to favourites
 
