@@ -4070,4 +4070,18 @@ beersBeatsApp.controller('playerCtrl', function($scope){
         "uri": "spotify:user:gustavkjellin:playlist:1iPrs5JR76TJGNzbme8XCv"
     }
 
+    // Sort out stuff not needed
+    $scope.spotifyPlaylistSongs = $scope.playlistFromSpotify.tracks.items;
+
+    // Return for ng-repeat
+    $scope.getPlaylist = function() {
+        return $scope.spotifyPlaylistSongs;
+    }
+
+    // Convert ms to MM:SS
+    $scope.msToMinSec = function(ms) {
+        var minutes = Math.floor(ms / 60000);
+        var seconds = ((ms % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
 });
