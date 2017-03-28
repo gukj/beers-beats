@@ -7,6 +7,11 @@ beersBeatsApp.controller('beerCtrl', function($scope, model){
 		console.log(b);
 		return b;
 	}*/
+	var beer = model.RandomBeer.get();
+
+	model.selectBeer(beer);
+
+	var beersTest = model.getSelectedBeers();
 
 
 	$scope.mockBeerFromPostman = {
