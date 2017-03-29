@@ -15,6 +15,10 @@ beersBeatsApp.config( [ '$routeProvider',
             templateUrl: 'partials/beerView.html',
             controller: 'beerCtrl'
         } ).
+        when( '/playlists', {
+            templateUrl: 'partials/playlistsView.html',
+            controller: 'playerCtrl'
+        } ).
         otherwise( {
             redirectTo: '/home'
         } );
