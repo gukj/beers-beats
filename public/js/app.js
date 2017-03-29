@@ -3,6 +3,10 @@ var beersBeatsApp = angular.module( 'beersBeats', [ 'ngRoute', 'ngResource', 'ng
 beersBeatsApp.config( [ '$routeProvider',
     function( $routeProvider ) {
         $routeProvider.
+        when( '/', { // INITAL PAGE LOAD ONLY
+            templateUrl: 'partials/landingView.html',
+            controller: 'homeCtrl'
+        } ).
         when( '/home', {
             templateUrl: 'partials/home.html',
             controller: 'homeCtrl'
