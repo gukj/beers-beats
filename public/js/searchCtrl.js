@@ -1,7 +1,6 @@
 beersBeatsApp.controller('searchCtrl', function($scope, model){
 
 
-
   $scope.search = function(name) {
   $scope.status = "Searching...";
   model.BeerByName.get({name:name},function(data){
@@ -21,4 +20,9 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
       $scope.status = "There was an error";
     });
   }
+
+  $scope.addBeer = function(beerID) {
+    model.selectBeer(beerID);
+  }
+
 });
