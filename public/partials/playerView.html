@@ -1,3 +1,6 @@
+<!-- playerView -->
+
+<h3>Current playlist</h3>
 <table class="table table-sm small table-striped">
   <thead>
     <tr>
@@ -10,11 +13,11 @@
   </thead>
   <tbody>
       <tr ng-repeat="song in getPlaylist() | limitTo:10">
-            <th scope="row">{{$index + 1}}<!--TODO: {{song.number}}--></th>
+            <th scope="row">{{$index + 1}}</th>
             <td>{{song.track.name}}</td>
             <td>{{song.track.artists[0].name}}</td>
             <td>{{msToMinSec(song.track.duration_ms)}}</td>
-            <td><i class="fa fa-play"><i/></td>
+            <td><a href="{{song.track.preview_url}}"><i class="fa fa-play"><i/></a></td>
       </tr>
   </tbody>
 </table>
