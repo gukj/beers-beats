@@ -5,54 +5,41 @@
 
 
 
-<div class="col-md-12">
-  <h3>Search Beers</h3>
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="dropdown">
-        <input ng-model="query"/>
-          <select ng-model="type" name="beerType" ng-change="search(query)">
-            <option value="appetizer">Starter</option>
-            <option value="main course">Main</option>
-            <option value="dessert">Dessert</option>
-          </select>
-      </div>
 
-      <button ng-click="search(query)">Find</button>
-      <br><hr>
-
-      <button ng-click="searchRandom()">Just get me a random beer!</button>
-      {{status}}
+<h3>Search Beers</h3>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <div class="dropdown">
+      <input ng-model="query"/>
+        <!--<select ng-model="type" name="beerType" ng-change="search(query)">
+          <option value="appetizer">Starter</option>
+          <option value="main course">Main</option>
+          <option value="dessert">Dessert</option>
+        </select>-->
+      <button ng-click="search(query)" class="btn btn-primary">Find</button>
     </div>
+    {{status}}
+    <br>
+    <button ng-click="search('rnd')" class="btn btn-primary">Just get me a random beer!</button>
+    <br>
+    <hr>
+
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <ul>
-        <div ng-repeat="beer in beers">
+</div>
+<div class="row">
+      <div ng-repeat="beer in beers">
+        <div class="col-md-3">
           <div class="card" style="width: 20rem;">
             <a href="#!/beerView/{{beer.id}}"</a>
             <img img class="card-img-top img-thumbnail" ng-src="{{beer.labels.large}}"/></a>
-              <div class="card-block">
-                <h4 class="card-title">{{beer.name}}</h4>
-                <p class="card-text">{{beer.description}}</p>
-                <a href="#!/beer/{{beer.id}}" class="btn btn-primary">View more</a>
-                <button ng-click="addBeer(beer.id)">Add beer to Bag</button>
-            </div>
+            <div class="card-block">
+              <h4 class="card-title">{{beer.name}}</h4>
+              <p class="card-text collapse">{{beer.description}}</p>
+              <a href="#!/selectedBeer/{{beer.id}}" class="btn btn-primary">View more</a>
+              <button ng-click="addBeer(beer.id)" class="btn btn-primary">Add Beer to Bag</button>
           </div>
         </div>
-      </ul>
-    </div>
-  <div class="col-md-12" id="randomBeer">
-    <div class="card" style="width: 20rem;">
-      <a href="#!/beer/{{randomBeer.id}}">
-      <img img class="card-img-top img-thumbnail" ng-src="{{randomBeer.labels.large}}"/></a>
-        <div class="card-block">
-          <h4 class="card-title">{{randomBeer.name}}</h4>
-          <p class="card-text">{{randomBeer.description}}</p>
-          <a href="#!/beer/{{randomBeer.id}}" class="btn btn-primary">View more</a>
-          <button ng-click="addBeer(randomBeer.id)">Add beer to Bag</button>
       </div>
     </div>
-  </div>
 </div>

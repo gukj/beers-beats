@@ -127,10 +127,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	this.selectBeer = function(beer){
 		var id = beer;
 		this.BeerByID.get({id:id},function(data){
-			console.log("hej")
-			console.log(data.id)
 			_this.selectedBeers.push(data)
-			console.log(_this.selectedBeers)
 		});
 	}
 
