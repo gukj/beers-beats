@@ -10,12 +10,13 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 //get beer by name
 //input name of beer
-	this.BeerByName = $resource('http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
     get: {
 			method: 'GET',
 			isArray: true,
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
+				console.log(tmp.data);
 				return tmp.data ;
 			}
 	  }
@@ -23,7 +24,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 //get beer by id
 //input id of beer
-	this.BeerByID = $resource('http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -34,7 +35,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
   });
 
 	//get random beer
-	this.RandomBeer = $resource('http://api.brewerydb.com/v2/beer/random/?key=81f290d3c2a50e872349732640d52269',{},{
+	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81f290d3c2a50e872349732640d52269',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -49,7 +50,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//get country (category) given a beer
 	//input name of beer
-	this.BeerCategory = $resource('http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
 		get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -61,12 +62,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 		}
 	});
 
-	//TODO get image of a beer
 
-
-	//get playlist given country
-
-	//get country given playlist
+	//@JULIAVONHEIJNE: TODO get image of a beer: Ska ligga hos controllern. Använd 
+	//this.beerbyID to access the whole j-son object and then get 
+	//the specific json object for image url.
 
 
 	/* MODEL */
@@ -74,6 +73,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	//given a beer, get its country and return playlist
 
 	//given a playlist, get its country and return list of beers
+
+	//get playlist given country
+
+	//get country given playlist
 
 	//add beer object to BAG/favourites
 	this.selectBeer = function(beer){
