@@ -22,7 +22,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	var cat14 = '7ilySkaswwP6MeaboU010g'; // Malternative Beverages*/
 
 	var playlistIDs = ['0tkRbaSwTy9lwAw66vCCIq', // British Origin Ales
-										'2xqLn5C8UBdG63mmy4i8QQ' // Irish Origin Ales
+										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
 										'2OfjDjNGlp8Z9uh2yNCzkb', // North American Origin Ales
 										'1G4xK6ksyXGLqkf4QSSQCL', // German Origin Ales
 										'1Bx9uZMuiLZ6ZT8N1fmEjp', // Belgian And French Origin Ales
@@ -35,7 +35,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 										'6qIrNhoRraUIWhsktGP5bj', // Mead, Cider, & Perry
 										'72OAW0y5ntDYCURQlCwKHl', //Other Origin
 										'7ilySkaswwP6MeaboU010g' // Malternative Beverages
-										]
+									];
 	/* API CALLS */
 
 //get beer by name
@@ -45,11 +45,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			isArray: true,
 			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				console.log(tmp.data);
-				return tmp.data ;
+			var tmp =  angular.fromJson(data);
+			for (var i = 0; i < tmp.data.length; i++ ) {
+				if (tmp.data[i].labels == null){
+					tmp.data[i]['labels'] = {large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png'};
+			  }
 			}
+			return tmp.data;
 	  }
+	}
   });
 
 //get beer by id
@@ -59,7 +63,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				return tmp.data ;
+				return tmp.data;
 			}
     }
   });
@@ -70,7 +74,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				console.log(tmp);
+				if (tmp.data.labels == null){
+						tmp.data['labels'] = {large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png'};
+					}
 				return tmp.data;
 			}
     }
@@ -93,8 +99,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	});
 
 
-	//@JULIAVONHEIJNE: TODO get image of a beer: Ska ligga hos controllern. Använd 
-	//this.beerbyID to access the whole j-son object and then get 
+	//@JULIAVONHEIJNE: TODO get image of a beer: Ska ligga hos controllern. Använd
+	//this.beerbyID to access the whole j-son object and then get
 	//the specific json object for image url.
 
 
@@ -134,22 +140,22 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	this.generatePlaylist = function(){
 		var categories = {
-			'1' = 0,
-			'2' = 0,
-			'3' = 0,
-			'4' = 0,
-			'5' = 0,
-			'6' = 0,
-			'7' = 0,
-			'8' = 0,
-			'9' = 0,
-			'10' = 0,
-			'11' = 0,
-			'12' = 0,
-			'13' = 0,
-			'14' = 0
+			'1' : 0,
+			'2' : 0,
+			'3' : 0,
+			'4' : 0,
+			'5' : 0,
+			'6' : 0,
+			'7' : 0,
+			'8' : 0,
+			'9' : 0,
+			'10' : 0,
+			'11' : 0,
+			'12' : 0,
+			'13' : 0,
+			'14' : 0
 		};
-		for (i = 1; i < selectedBeers.length; i++) {
+		for ( var i = 1; i < selectedBeers.length; i++) {
     	categories[selectedBeers[i].categoryId] = categories[selectedBeers[i].categoryId] + 1;
 		}
 		console.log(categories);
