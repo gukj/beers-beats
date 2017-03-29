@@ -23,11 +23,13 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 										'72OAW0y5ntDYCURQlCwKHl', //Other Origin
 										'7ilySkaswwP6MeaboU010g' // Malternative Beverages
 										];
+
 	
 	/* API CALLS */
 
 //get beer by name
 //INPUT: name of beer
+
 	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
     get: {
 			method: 'GET',
@@ -41,7 +43,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
   });
 
 //get beer by id
+
 //INPUT: id of beer
+
 	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
     get: {
 			method: 'GET',
@@ -67,7 +71,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	//get beers given a country (category)
 
 	//get country (category) given a beer
+
 	//INPUT: name of beer
+
 	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
 		get: {
 			method: 'GET',
@@ -79,6 +85,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			}
 		}
 	});
+
 
 	//get playlist given an id
 	//INPUT: id of playlist 
@@ -93,7 +100,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			}
 		}
 	});
-
 
 	//@JULIAVONHEIJNE: TODO get image of a beer: Ska ligga hos controllern. Använd 
 	//this.beerbyID to access the whole j-son object and then get 
@@ -117,6 +123,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//remove beers to BAG/favourites
 	this.deselectBeer = function(beerID){
+
 		for (var i=0; i<selectedBeers.length; i++){
 			if(selectedBeers[i].id === beerID){
 				selectedBeers.splice(i,1);
