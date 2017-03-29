@@ -31,11 +31,13 @@
       <ul>
         <div ng-repeat="beer in beers">
           <div class="card" style="width: 20rem;">
-            <img img class="card-img-top img-thumbnail" ng-src="{{beer.labels.large}}"/>
+            <a href="#!/beerView/{{beer.id}}"</a>
+            <img img class="card-img-top img-thumbnail" ng-src="{{beer.labels.large}}"/></a>
               <div class="card-block">
                 <h4 class="card-title">{{beer.name}}</h4>
                 <p class="card-text">{{beer.description}}</p>
-                <a href="#!/beerView/{{beer.id}}" class="btn btn-primary">View more</a>
+                <a href="#!/beer/{{beer.id}}" class="btn btn-primary">View more</a>
+                <button ng-click="addBeer(beer.id)">Add beer to Bag</button>
             </div>
           </div>
         </div>
@@ -43,11 +45,13 @@
     </div>
   <div class="col-md-12" id="randomBeer">
     <div class="card" style="width: 20rem;">
-      <img img class="card-img-top img-thumbnail" ng-src="{{randomBeer.labels.large}}"/>
+      <a href="#!/beer/{{randomBeer.id}}">
+      <img img class="card-img-top img-thumbnail" ng-src="{{randomBeer.labels.large}}"/></a>
         <div class="card-block">
           <h4 class="card-title">{{randomBeer.name}}</h4>
           <p class="card-text">{{randomBeer.description}}</p>
-          <a href="#!/beerView/{{randomBeer.id}}" class="btn btn-primary">View more</a>
+          <a href="#!/beer/{{randomBeer.id}}" class="btn btn-primary">View more</a>
+          <button ng-click="addBeer(randomBeer.id)">Add beer to Bag</button>
       </div>
     </div>
   </div>

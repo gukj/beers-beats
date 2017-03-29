@@ -6,7 +6,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	var _this = this;
 
-	var selectedBeers = [];
+	this.selectedBeers = [];
 
 	var playlistIDs = ['0tkRbaSwTy9lwAw66vCCIq', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
@@ -125,15 +125,21 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//add beer object to BAG/favourites
 	this.selectBeer = function(beer){
-		selectedBeers.push(beer);
+		var id = beer;
+		this.BeerByID.get({id:id},function(data){
+			console.log("hej")
+			console.log(data.id)
+			_this.selectedBeers.push(data)
+			console.log(_this.selectedBeers)
+		});
 	}
 
 	//remove beers to BAG/favourites
 	this.deselectBeer = function(beerID){
 
 		for (var i=0; i<selectedBeers.length; i++){
-			if(selectedBeers[i].id === beerID){
-				selectedBeers.splice(i,1);
+			if(this.selectedBeers[i].id === beerID){
+				this.selectedBeers.splice(i,1);
 				return;
 			}
 		}

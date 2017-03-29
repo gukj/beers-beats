@@ -15,7 +15,7 @@ beersBeatsApp.config( [ '$routeProvider',
             templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
         } ).
-        when( '/beer', {
+        when( '/beer/:beerId', {
             templateUrl: 'partials/beerView.html',
             controller: 'beerCtrl'
         } ).
