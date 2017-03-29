@@ -1,0 +1,35 @@
+<!--Selected beer view, where you get extended information about the selected beer.
+vangborg-->
+<ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
+<ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
+
+<h2>Selected Beer</h2>
+<hr>
+
+<h3>{{beer.nameDisplay}}</h3>
+<div class="row">
+	<div class="col"><img class="card-img-top img-thumbnail" ng-src="{{beer.labels.medium}}" /> </div>
+	<div class="col">
+		<div class="row">
+			<img img class="card-img-top img-thumbnail" ng-src={{isOrganic}} />
+		</div>
+		<div class="row">
+			{{beer.style.category.name}}
+		</div>
+			<div class="row">
+				<div class="btn btn-primary" ng-click=add(beer.id)>
+				Add to Beerbag
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+<br>
+<div class="row">
+	<h4>Description</h4>
+	{{beer.style.description}}
+</div>
+<br>
+<br>
+<br>
+<br>
