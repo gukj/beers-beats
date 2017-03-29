@@ -39,7 +39,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				console.log(tmp);
+				console.log(tmp.data);
 				return tmp.data;
 			}
     }

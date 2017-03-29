@@ -11,7 +11,7 @@ beersBeatsApp.controller('beerCtrl', function($scope, model){
 
 	model.selectBeer(beer);
 
-	var beersTest = model.getSelectedBeers();
+	$scope.beersTest = model.getSelectedBeers();
 
 
 	$scope.mockBeerFromPostman = {
