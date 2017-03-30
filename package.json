@@ -16,6 +16,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "angular-native-dragdrop": "^1.2.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "request": "^2.81.0"

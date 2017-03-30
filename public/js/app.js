@@ -1,4 +1,4 @@
-var beersBeatsApp = angular.module( 'beersBeats', [ 'ngRoute', 'ngResource', 'ngCookies' ] );
+var beersBeatsApp = angular.module( 'beersBeats', [ 'ngRoute', 'ngResource', 'ngCookies', 'ngDragDrop'] );
 
 beersBeatsApp.config( [ '$routeProvider',
     function( $routeProvider ) {
