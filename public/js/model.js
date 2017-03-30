@@ -6,7 +6,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	var _this = this;
 
-	this.selectedBeers = [];
+	this.selectedBeers = {};
 
 	var playlistIDs = ['0tkRbaSwTy9lwAw66vCCIq', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
@@ -30,7 +30,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 //get beer by name
 //INPUT: name of beer
 
-	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			isArray: true,
@@ -50,7 +50,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 //INPUT: id of beer
 
-	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -69,7 +69,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
   });
 
 	//get random beer
-	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81f290d3c2a50e872349732640d52269',{},{
+	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -88,7 +88,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//INPUT: name of beer
 
-	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
+	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
 		get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -132,10 +132,24 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	//get country given playlist
 
 	//add beer object to BAG/favourites
-	this.selectBeer = function(beer){
+	/*this.selectBeer = function(beer){
 		var id = beer;
 		this.BeerByID.get({id:id},function(data){
 			_this.selectedBeers.push(data)
+		});
+	}*/
+
+
+	this.selectBeer = function(beer){
+		var id = beer;
+		this.BeerByID.get({id:id},function(data){
+			if (id in _this.selectedBeers) {
+				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
+			}else {
+				_this.selectedBeers[id] = { value: 1, beer: data};
+				
+			}
+
 		});
 	}
 
@@ -152,6 +166,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//return all selected beer objects
 	this.getSelectedBeers = function(){
+		var beers = [];
+		for (key in this.selectedBeers){
+			beers.push(this.selectedBeers[key].beer);
+		}
+		return beers;
+	}
+
+	this.getSelectedBeersAndValue = function(){
 		return this.selectedBeers;
 	}
 

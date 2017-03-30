@@ -17,9 +17,10 @@ ha en scroller
 		<br>
 	<div ng-repeat="beer in beerBag">
 	    <div class="col-md-4">
-	    	<a href="#!/selectedBeer/{{beer.id}}">
-	        <img img class="card-img-top img-thumbnail" ng-src="{{beer.labels.icon}}"/>
-	            {{beer.name}}
+	    	<a href="#!/selectedBeer/{{beer.beer.id}}">
+	        <img img class="card-img-top img-thumbnail" ng-src="{{beer.beer.labels.icon}}"/>
+	            {{beer.beer.name}}
+	            {{beer.value}}
 	    </div>
 	</div>
 	</ul>
