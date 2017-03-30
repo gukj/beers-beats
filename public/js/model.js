@@ -55,6 +55,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
+				console.log(tmp);
+				if (tmp.data.labels == null){
+					console.log("hej");
+					tmp.data['labels'] = {	large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png',
+											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
+											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
+			  	}
+
 				return tmp.data;
 			}
     }
@@ -144,7 +152,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 
 	//return all selected beer objects
 	this.getSelectedBeers = function(){
-		return selectedBeers;
+		return this.selectedBeers;
 	}
 
 	//add playlists to favourites
