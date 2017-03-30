@@ -10,7 +10,7 @@ ha en scroller
 <hr>
 
 <!-- Show the beers -->
-<div class = "beerBag" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop=onDrop('beerBag , $data)" drop-validate="dropValidate('beerBag', $data) >
+<div class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop('beerBag , $data)" drop-validate="dropValidate('beerBag', $data)">
 	<ul>
 	<div ng-repeat="beer in beerBag">
 	    <div class="col-md-4">
@@ -21,13 +21,3 @@ ha en scroller
 	</ul>
 </div> 
 
-
-<!-- <div class="show-image">
-
-    <img src="http://taditdash.files.wordpress.com/2014/01/tadit-dash.jpg" />
-
-    <button ng-click="deleteBeer()" class="btn btn-primary">Delete</button>
-</div> 
-
-
- {{beer}} -->
