@@ -1,5 +1,5 @@
-<!--<ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>-->
-<!--<ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>-->
+<ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
+<ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
 
 <!--Search page that allows the user to search for beers using multiple kinds of input, for example free text, country of origin, alcohol amount per SEK etc.-->
 
@@ -16,13 +16,12 @@
             <button ng-click="search(query)" class="btn btn-primary ml-3 my-3">Find</button>
         </div>
         <button ng-click="search('rnd')" class="btn btn-primary ml-3 my-3">Just get me a random beer!</button>
-        <i class="ml-3 fa fa-shopping-bag text-primary fa-4x" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop('beerBag', $data)" drop-validate="dropValidate('beerBag', $data)"/>
     </div>
     {{status}}
     <br>
     <hr>
     <div class="card-columns">
-        <div ng-repeat="beer in beers" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop(beer.id, $data)" drop-validate="dropValidate(beer.id, $data)">
+        <div ng-repeat="beer in beers" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)">
             <a href="#!/beerView/{{beer.id}}">
                 <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
             </a>
