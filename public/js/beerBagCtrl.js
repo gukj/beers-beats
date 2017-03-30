@@ -2,7 +2,7 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
 
   var target = "";
   var source = "";
-  $scope.beerBag = model.getSelectedBeers();
+  $scope.beerBag = model.getSelectedBeersAndValue();
 
   $scope.onDrop = function(){
     console.log("dropped " + source + " on " + target);
@@ -15,5 +15,9 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
     source = s;
     return (target !== source && target == 'beerBag');
   };
+
+  $scope.removeBeer = function(beerID) {
+    model.deselectBeer(beerID);
+  }
 
 });

@@ -12,17 +12,31 @@ ha en scroller
 
 <!-- Show the beers -->
 <div class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
-	<ul>
+
 		<br>
 		<br>
-	<div ng-repeat="beer in beerBag">
-	    <div class="col-md-4">
-	    	<a href="#!/selectedBeer/{{beer.id}}">
-	        <img img class="card-img-top img-thumbnail" ng-src="{{beer.labels.icon}}"/>
-	            {{beer.name}}
+	<div class="col-md-8">
+		<div ng-repeat="beer in beerBag">
+		    <div class="col-md-4">
+		    	<a href="#!/selectedBeer/{{beer.beer.id}}">
+		        <img img class="card-img-top img-thumbnail" ng-src="{{beer.beer.labels.icon}}"/>
+		        </a>
+		    </div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div ng-repeat="beer in beerBag">
+			<div class = "row">
+	            {{beer.beer.name}}
+	        </div>
+	        <div class = "row">
+	            Antal: {{beer.value}}
+	        </div>
+	        <div class = "row">
+	        	<button ng-click="removeBeer(beer.beer.id)" class="btn btn-sm btn-warning">-</button>
+	        </div>
 	    </div>
 	</div>
-	</ul>
 </div>
 
 <a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beer Bag</a>
