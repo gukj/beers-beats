@@ -16,4 +16,8 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
     return (target !== source && target == 'beerBag');
   };
 
+  $scope.removeBeer = function(beerID) {
+    model.deselectBeer(beerID);
+  }
+
 });

@@ -156,12 +156,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	//remove beers to BAG/favourites
 	this.deselectBeer = function(beerID){
 
-		for (var i=0; i<selectedBeers.length; i++){
-			if(this.selectedBeers[i].id === beerID){
-				this.selectedBeers.splice(i,1);
-				return;
-			}
+		_this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
+		if (_this.selectedBeers[beerID].value < 1) {
+			delete _this.selectedBeers[beerID];
 		}
+
+
 	}
 
 	//return all selected beer objects
