@@ -13,13 +13,17 @@ beersBeatsApp.config( [ '$routeProvider',
         } ).
 
         when( '/home?access_token', { //ÄNDRAT
-            
+
             templateUrl: 'partials/home.html',
             controller: 'homeCtrl'
         } ).
         when( '/search', {
             templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
+        } ).
+        when( '/profile', {
+            templateUrl: 'partials/profileView.html',
+            controller: 'profileCtrl'
         } ).
         when( '/beer/', {
             templateUrl: 'partials/beerView.html',
