@@ -225,6 +225,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//add beer object to BAG/favourites
 
+	this.getuserProfile = function() {
+		_this.userProfile.get({},function(data){
+			return data;
+		});
+	}
+
 	this.selectBeer = function(beer){
 		var id = beer;
 		this.BeerByID.get({id:id},function(data){
