@@ -1,28 +1,54 @@
 //Get data from spoitfy and beer API respectively
 
-beersBeatsApp.factory('model', function($resource, $cookieStore){
+beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 /* STATIC VAR DECLERATIONS */
+
+//saves the token for specific session. When token runs out, you have to login again.
+	if ($routeParams.access_token){
+		var access_token = $routeParams.access_token;
+		//console.log($routeParams.access_token);
+	}else{
+		//some function that shows that the user is unauthorized? 
+		//ful popupwindow som varnar om att session is ended
+		console.log("unauthorized user, session has ended");
+	}
 
 	var _this = this;
 
 	this.selectedBeers = {};
 
-	var playlistIDs = ['0tkRbaSwTy9lwAw66vCCIq', // British Origin Ales
+	//can randomizas mer
+	this.playlistIDs = ['6S9xIadSkBAUP5wpOaArZc', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
 										'2OfjDjNGlp8Z9uh2yNCzkb', // North American Origin Ales
-										'1G4xK6ksyXGLqkf4QSSQCL', // German Origin Ales
-										'1Bx9uZMuiLZ6ZT8N1fmEjp', // Belgian And French Origin Ales
-										'37i9dQZEVXbMDoHDwVN2tF', // International Ale Styles
-										'1uCcS1S6u16qk8JXKgfIqS', // European-germanic Lager
-										'2fDLCkAiNIeQzXbdG86g9r', // North American Lager
-										'3oaoPa6YMNdfx4yc05aVmt', // Other Lager
-										'0jXuFjs93Tavfsy19s1lk6', // International Style
-										'37i9dQZF1DX0sQWfevMRw3', // Hybrid/mixed Beer
-										'6qIrNhoRraUIWhsktGP5bj', // Mead, Cider, & Perry
-										'72OAW0y5ntDYCURQlCwKHl', //Other Origin
-										'7ilySkaswwP6MeaboU010g' // Malternative Beverages
+										'0gIlrzIjnplGVqfIgpf2gH', // German Origin Ales
+										'24b3plyJb0ytgVrLj9tgyt', // Belgian And French Origin Ales
+										'4hOKQuZbraPDIfaGbM3lKI', // International Ale Styles
+										'2s90Epp4VfI6yEfOLnAYRZ', // European-germanic Lager
+										'6YhlAoszFStMn95e3tQ6Po', // North American Lager
+										'1uBI8icgYcUED3T1W1X6dB', // Other Lager
+										'73boXMJz9iBoXxQVFZ94r5', // International Style
+										'0VOBa4Bq4kMWBQzG9h6xhU', // Hybrid/mixed Beer
+										'71Kj902riugEIPNRVsYZ4c', // Mead, Cider, & Perry
+										'33yjWFG5onxZu3HdIzO1Zu', //Other Origin
+										'5bMgwxIN2fNPSn3jjvRfE8' // Malternative Beverages
+										];
 
+	this.playlistCreators = ['jonatanvif', 	// British Origin Ales
+										'1127605864', 			// Irish Origin Ales
+										'architectsukband', 	// North American Origin Ales
+										'1116790879', 			  // German Origin Ales
+										'21gb7d2s5vhcbaroos64ybmlq', // Belgian And French Origin Ales
+										'spotify', 				// International Ale Styles
+										'1176140580', 			  // European-germanic Lager
+										'1230087443', // North American Lager
+										'topsify', // Other Lager
+										'spotify', // International Style
+										'22et2if7b2a5famxbcw5pfwfy', // Hybrid/mixed Beer
+										'sonymusicnl', // Mead, Cider, & Perry
+										'spotify_uk_', //Other Origin
+										'spotify' // Malternative Beverages];
 										];
 
 	/* API CALLS */
@@ -101,24 +127,77 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	});
 
 
+	//---SPOTIFY API
 
+	//console.log($routeParams.access_token);
 	//get playlist given an id
-	//INPUT: id of playlist
-	this.PlaylistByID = $resource('https://crossorigin.me/https://api.spotify.com/v1/search/q=name::name&type=track',{},{
+	//INPUT: username of creator
+	//		 id of playlist 
+	//RETURNS: whole playlist object
+	this.PlaylistByCreatorAndID = $resource('https://api.spotify.com/v1/users/:username/playlists/:id',{},{
 		get: {
+			headers: {'Authorization': 'Bearer ' + access_token },
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
 				return {
-					category: tmp,
+					playlist: tmp
 				}
 			}
 		}
 	});
 
-	//@JULIAVONHEIJNE: TODO get image of a beer: Ska ligga hos controllern. Använd
-	//this.beerbyID to access the whole j-son object and then get
-	//the specific json object for image url.
+	//INPUT: name of playlist
+	this.PlaylistsByName = $resource('https://api.spotify.com/v1/search?q=:name&type=playlist',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					playlists: tmp.playlists.items[0].id,
+				}
+			}
+		}
+	});
+
+	//INPUT 
+	this.AlbumsByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=album',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					tmp,
+				}
+			}
+		}
+	});
+
+	//INPUT 
+	this.ArtistsByName = $resource('https://api.spotify.com/v1/search?q=tania%20bowra&type=artist',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					artist : tmp.artists.items,
+				}
+			}
+		}
+	});
+
+	//INPUT 
+	this.TracksByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=track',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					tmp,
+				}
+			}
+		}
+	});
 
 
 	/* MODEL FUNCTIONS */
@@ -132,13 +211,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 	//get country given playlist
 
 	//add beer object to BAG/favourites
-	/*this.selectBeer = function(beer){
-		var id = beer;
-		this.BeerByID.get({id:id},function(data){
-			_this.selectedBeers.push(data)
-		});
-	}*/
-
 
 	this.selectBeer = function(beer){
 		var id = beer;
@@ -199,8 +271,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			'14' : 0
 		};
 
-		for (var i = 1; i < selectedBeers.length; i++) {
-    		categories[selectedBeers[i].categoryId] = categories[selectedBeers[i].categoryId] + 1;
+		for (var i = 1; i < this.selectedBeers.length; i++) {
+    		categories[this.selectedBeers[i].categoryId] = categories[this.selectedBeers[i].categoryId] + 1;
 		}
 
 		console.log(categories);
@@ -212,7 +284,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 				highestValue = categories[i];
 			}
 		}
-		return playlistIDs[selectedID-1];
+		console.log(this.playlistIDs[selectedID-1]);
+		console.log(this.playlistCreators[selectedID-1]);
+		return this.playlistIDs[selectedID-1] + " " + this.playlistCreators[selectedID-1]; //måste returna playlist creator
 	}
 
 
