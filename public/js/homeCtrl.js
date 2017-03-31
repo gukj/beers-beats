@@ -5,9 +5,9 @@ beersBeatsApp.controller('homeCtrl', function($scope, model){
 		$scope.beer = data
 	});*/
 
-	var name = "abcd"
+	/*var name = "abcd"
 	model.PlaylistByID.get({name:name}, function(data){
 		$scope.beer = data 
-	});
+	});*/
 
 });

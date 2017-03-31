@@ -12,7 +12,7 @@ var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-//KOPIERA IN TRE KODRADER HÄR.
+//SKRIV IN 3 KODRADER HÄR
 
 /**
  * Generates a random string containing numbers and letters
@@ -100,7 +100,7 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect('/#!/home?' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
