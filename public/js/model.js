@@ -38,7 +38,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 			var tmp =  angular.fromJson(data);
 			for (var i = 0; i < tmp.data.length; i++ ) {
 				if (tmp.data[i].labels == null){
-					tmp.data[i]['labels'] = {large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png'};
+					tmp.data[i]['labels'] = {	large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png',
+																	medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
+																	icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
 			  }
 			}
 			return tmp.data;
@@ -147,7 +149,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore){
 				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
 			}else {
 				_this.selectedBeers[id] = { value: 1, beer: data};
-				
+
 			}
 
 		});
