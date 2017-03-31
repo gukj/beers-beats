@@ -1,4 +1,4 @@
-beersBeatsApp.controller('homeCtrl', function($scope, model){
+beersBeatsApp.controller('profileCtrl', function($scope, model){
 
 
 });
