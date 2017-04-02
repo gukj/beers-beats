@@ -9,7 +9,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		var access_token = $routeParams.access_token;
 		//console.log($routeParams.access_token);
 	}else{
-		//some function that shows that the user is unauthorized? 
+		//some function that shows that the user is unauthorized?
 		//ful popupwindow som varnar om att session is ended
 		console.log("unauthorized user, session has ended");
 	}
@@ -134,7 +134,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//console.log($routeParams.access_token);
 	//get playlist given an id
 	//INPUT: username of creator
-	//		 id of playlist 
+	//		 id of playlist
 	//RETURNS: whole playlist object
 	this.PlaylistByCreatorAndID = $resource('https://api.spotify.com/v1/users/:username/playlists/:id',{},{
 		get: {
@@ -162,7 +162,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	});
 
-	//INPUT 
+	//INPUT
 	this.AlbumsByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=album',{},{
 		get: {
 			method: 'GET',
@@ -175,7 +175,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	});
 
-	//INPUT 
+	//INPUT
 	this.ArtistsByName = $resource('https://api.spotify.com/v1/search?q=tania%20bowra&type=artist',{},{
 		get: {
 			method: 'GET',
@@ -188,7 +188,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	});
 
-	//INPUT 
+	//INPUT
 	this.TracksByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=track',{},{
 		get: {
 			method: 'GET',
@@ -197,6 +197,18 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				return {
 					tmp,
 				}
+			}
+		}
+	});
+
+
+	this.userProfile = $resource('https://api.spotify.com/v1/me',{},{
+		get: {
+			method: 'GET',
+			headers: {'Authorization': 'Bearer ' + access_token },
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return tmp;
 			}
 		}
 	});
@@ -213,6 +225,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//get country given playlist
 
 	//add beer object to BAG/favourites
+
 
 	this.selectBeer = function(beer){
 		var id = beer;
