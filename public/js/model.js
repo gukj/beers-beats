@@ -205,6 +205,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	this.userProfile = $resource('https://api.spotify.com/v1/me',{},{
 		get: {
 			method: 'GET',
+			headers: {'Authorization': 'Bearer ' + access_token },
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
 				return tmp;
@@ -225,11 +226,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//add beer object to BAG/favourites
 
-	this.getuserProfile = function() {
-		_this.userProfile.get({},function(data){
-			return data;
-		});
-	}
 
 	this.selectBeer = function(beer){
 		var id = beer;
