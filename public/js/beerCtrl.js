@@ -1,6 +1,7 @@
 beersBeatsApp.controller('beerCtrl', function($scope, model){
 
 	//MOCK OBJECTS
+	/*
 	var beer = model.RandomBeer.get();
 	model.selectBeer(beer);
 
@@ -8,17 +9,19 @@ beersBeatsApp.controller('beerCtrl', function($scope, model){
 	model.selectBeer(beer);
 
 	beer = model.RandomBeer.get();
-	model.selectBeer(beer);
-
+	model.selectBeer(beer);*/
 
 	$scope.beers = function(){
 		//return model.getSelectedBeers();
-		var b = model.getSelectedBeers();
-		console.log(b);
-		return b;
+		var beers = model.getSelectedBeers();
+        if (beers.length > 0) {
+			return beers;
+		}
 	}
 
 	$scope.remove = function(id){
 		model.deselectBeer(id);
 	}
+
+
 });
