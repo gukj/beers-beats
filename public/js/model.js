@@ -9,9 +9,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		var access_token = $routeParams.access_token;
 		//console.log($routeParams.access_token);
 	}else{
-		//some function that shows that the user is unauthorized?
+		//TODO: infobox that user is unauthorized
+		//redirection to homepage or login
 		//ful popupwindow som varnar om att session is ended
-		console.log("unauthorized user, session has ended");
+		console.log("Unauthorized user, session has ended");
 	}
 
 	var _this = this;
@@ -83,9 +84,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				console.log(tmp);
+				//console.log(tmp);
 				if (tmp.data.labels == null){
-					console.log("hej");
 					tmp.data['labels'] = {	large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png',
 											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
 											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
@@ -224,7 +224,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//get country given playlist
 
-	//add beer object to BAG/favourites
+	//add beer object to favourites
+
+	//add playlists to favourites
+
+	//add beer-playlist combo to playlist
 
 
 	this.selectBeer = function(beer){
@@ -264,11 +268,20 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return this.selectedBeers;
 	}
 
-	//add playlists to favourites
+	//returns the list "PlaylistIds" to prepare api call for generatePlaylist
+	this.getPlaylistIds = function(){
+		return this.playlistIDs;
+	}
 
-	//add beer-playlist combo to playlist
+	//returns the list "PlaylistCreators" to prepare api call for generatePLaylist
+	this.getPlaylistCreators = function(){
+		return this.playlistCreators;
+	}
 
-	this.generatePlaylist = function(){
+	//INPUT: beerbag array
+	//Algorithm that counts category occurances of the beers in beerbags
+	//returns the resulting playlist + creator in one string
+	this.generatePlaylist = function(beerList){
 		var categories = {
 			'1' : 0,
 			'2' : 0,
@@ -285,23 +298,26 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			'13' : 0,
 			'14' : 0
 		};
-
-		for (var i = 1; i < this.selectedBeers.length; i++) {
-    		categories[this.selectedBeers[i].categoryId] = categories[this.selectedBeers[i].categoryId] + 1;
+		
+		for (var i = 0; i < beerList.length; i++) {
+    		categories[beerList[i].style.categoryId] = categories[beerList[i].style.categoryId] + 1;
 		}
 
-		console.log(categories);
 		var highestValue = -1;
-		var selectedID = '';
-		for (var i = 1; i < categories.length; i++) {
-			if(categories[i] > highestValue){
-				selectedID = i;
-				highestValue = categories[i];
+		var selectedID = 0;
+
+		for (var key in categories) { //algorithm to see what category has the highest ocourance in beerbag
+			if(categories[key] > highestValue){
+				selectedID = key;
+				highestValue = categories[key];
+				console.log("HighestValue " + highestValue);
+				console.log("Selected id: " + selectedID); 
 			}
 		}
-		console.log(this.playlistIDs[selectedID-1]);
-		console.log(this.playlistCreators[selectedID-1]);
-		return this.playlistIDs[selectedID-1] + " " + this.playlistCreators[selectedID-1]; //måste returna playlist creator
+		
+		var playlist = this.getPlaylistIds();
+		var creators = this.getPlaylistCreators();
+		return playlist[selectedID-1] + " " + creators[selectedID-1];
 	}
 
 
