@@ -19,6 +19,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	this.selectedBeers = {};
 
+	this.selectedPlaylists = {};
+
 	//can randomizas mer
 	this.playlistIDs = ['6S9xIadSkBAUP5wpOaArZc', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
@@ -36,14 +38,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 										'5bMgwxIN2fNPSn3jjvRfE8' // Malternative Beverages
 										];
 
-	this.playlistCreators = ['jonatanvif', 	// British Origin Ales
+	this.playlistCreators = ['jonatanvif', 						// British Origin Ales
 										'1127605864', 			// Irish Origin Ales
 										'architectsukband', 	// North American Origin Ales
 										'1116790879', 			  // German Origin Ales
 										'21gb7d2s5vhcbaroos64ybmlq', // Belgian And French Origin Ales
 										'spotify', 				// International Ale Styles
-										'1176140580', 			  // European-germanic Lager
-										'1230087443', // North American Lager
+										'1176140580', 			// European-germanic Lager
+										'1230087443', 			// North American Lager
 										'topsify', // Other Lager
 										'spotify', // International Style
 										'22et2if7b2a5famxbcw5pfwfy', // Hybrid/mixed Beer
@@ -230,7 +232,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//add beer-playlist combo to playlist
 
-
 	this.selectBeer = function(beer){
 		var id = beer;
 		this.BeerByID.get({id:id},function(data){
@@ -238,21 +239,19 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
 			}else {
 				_this.selectedBeers[id] = { value: 1, beer: data};
-
+				_this.generatePlaylist();
 			}
-
 		});
+
 	}
 
 	//remove beers to BAG/favourites
 	this.deselectBeer = function(beerID){
-
 		_this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 		if (_this.selectedBeers[beerID].value < 1) {
+			_this.deselectPlaylist(beerID);
 			delete _this.selectedBeers[beerID];
 		}
-
-
 	}
 
 	//return all selected beer objects
@@ -268,6 +267,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return this.selectedBeers;
 	}
 
+
+	//SPOTIFYPLAYLISTS
+
 	//returns the list "PlaylistIds" to prepare api call for generatePlaylist
 	this.getPlaylistIds = function(){
 		return this.playlistIDs;
@@ -278,10 +280,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return this.playlistCreators;
 	}
 
-	//INPUT: beerbag array
 	//Algorithm that counts category occurances of the beers in beerbags
 	//returns the resulting playlist + creator in one string
-	this.generatePlaylist = function(beerList){
+	this.generatePlaylist = function(){
 		var categories = {
 			'1' : 0,
 			'2' : 0,
@@ -298,10 +299,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			'13' : 0,
 			'14' : 0
 		};
-		
-		for (var i = 0; i < beerList.length; i++) {
+
+		beerList = this.getSelectedBeers();
+		if (beerList.length > 0){
+			for (var i = 0; i < beerList.length; i++) {
     		categories[beerList[i].style.categoryId] = categories[beerList[i].style.categoryId] + 1;
-		}
+			}
 
 		var highestValue = -1;
 		var selectedID = 0;
@@ -310,16 +313,78 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			if(categories[key] > highestValue){
 				selectedID = key;
 				highestValue = categories[key];
-				console.log("HighestValue " + highestValue);
-				console.log("Selected id: " + selectedID); 
+				//console.log("HighestValue " + highestValue);
+				//console.log("Selected id: " + selectedID); 
 			}
 		}
 		
 		var playlist = this.getPlaylistIds();
 		var creators = this.getPlaylistCreators();
-		return playlist[selectedID-1] + " " + creators[selectedID-1];
+
+		var p = playlist[selectedID-1];
+		var c = creators[selectedID-1];
+		
+		this.selectPlaylist(p,c);
+
+		}else{
+			console.log("generatePlaylist: BeerList is empty");
+		}
 	}
 
+	//adds a playlist to list selectedPlaylist
+	//Input: playlist id, creator id
+	this.selectPlaylist = function(playlist, creator){
+		var id = playlist;
+		var username = creator;
+
+		this.PlaylistByCreatorAndID.get({username:username, id:id},function(data){
+			if (id in _this.selectedPlaylists) {
+				//already selected
+				console.log("Playlist is already selected");
+			}else {
+				_this.selectedPlaylists[id] = {creator: username, playlist: data}; //save playlist in local list
+				console.log("Playlist " + id + " included in list");
+			}
+		});
+	}
+
+	//removes playlist from list selectedPlaylist 
+	//Input: beer id
+	this.deselectPlaylist = function(beer){
+		//console.log("entering deselect playlist");
+
+		var playlist = this.getPlaylistIds();
+		var beerList = this.getSelectedBeers();
+
+		for (var i = 0; i < beerList.length; i++){
+			if (beerList[i].id = beer){
+				var selectedID = beerList[i].style.categoryId;
+			}
+		}
+		//console.log("selectedID: " + selectedID);
+
+		var playlistID = playlist[selectedID-1];
+
+		delete _this.selectedPlaylists[playlistID];
+	}
+
+	//return all selected playlist objects
+	this.getSelectedPlaylistsData = function(){
+		var check = false;
+		var playlists = [];
+		for (key in this.selectedPlaylists){
+			//console.log("key: " + key);
+			playlists.push(_this.selectedPlaylists[key].playlist);
+			check = true;
+		}
+		if (check == true){
+			return playlists[0];
+		}		
+	}
+
+	this.getSelectedPlaylists = function(){
+		return this.selectedPlaylists;
+	}
 
 	return this;
 });
