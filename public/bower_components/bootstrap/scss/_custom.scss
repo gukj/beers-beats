@@ -2,3 +2,9 @@
 //
 // Copy variables from `_variables.scss` to this file to override default values
 // without modifying source files.
+
+// Beers&beats red
+$bb-red: #EF4136 !default;
+
+// Set bb-red as primary code-color
+$brand-primary: $bb-red !default;
