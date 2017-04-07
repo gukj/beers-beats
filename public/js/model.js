@@ -264,8 +264,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		if (_this.selectedBeers[beerID].value < 1) {
 			_this.deselectPlaylist(beerID);
 			console.log('before delete',_this.selectedBeers);
-			delete _this.selectedBeers[beerID];
-			//gör så att resterande beerID blir bara true! kaoz
+			//delete _this.selectedBeers[beerID]; //gör så att resterande beerID blir true
+			var newList = {};
+			for (key in _this.selectedBeers){
+				if(_this.selectedBeers[key]['beer']['id'] != beerID){
+					newList[key] = _this.selectedBeers[key];
+				}
+			}
+			_this.selectedBeers = newList; //blir true ändå
+			
 			console.log('after delete',_this.selectedBeers);
 		}
 	}
