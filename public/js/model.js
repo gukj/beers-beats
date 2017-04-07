@@ -21,6 +21,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	this.selectedPlaylists = {};
 
+	this.selectedPlaylist = {};
+
+	this.pID = '';
+
 	//can randomizas mer
 	this.playlistIDs = ['6S9xIadSkBAUP5wpOaArZc', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
@@ -239,6 +243,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
 			} else {
 				_this.selectedBeers[id] = { value: 1, beer: data};
+        
 				//prep for toggle of text
 				if( _this.selectedBeers[id]['beer']['style'] != undefined){
 					_this.selectedBeers[id]['beer']['textExists'] = true;
@@ -251,8 +256,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 					_this.selectedBeers[id]['beer']['maxTextLength'] = 0;
 					_this.selectedBeers[id]['beer']['infoText'] = "";
 				}
-				_this.generatePlaylist();
+        
 			}
+			_this.generatePlaylist();
 		});
 
 	}
@@ -262,12 +268,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		console.log('id', beerID);
 		_this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 		if (_this.selectedBeers[beerID].value < 1) {
-			_this.deselectPlaylist(beerID);
+			
+      _this.deselectPlaylist(beerID);
 			console.log('before delete',_this.selectedBeers);
 			delete _this.selectedBeers[beerID];
 			//gör så att resterande beerID blir bara true! kaoz
 			console.log('after delete',_this.selectedBeers);
 		}
+		_this.generatePlaylist();
 	}
 
 	//return all selected beer objects
@@ -319,8 +327,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return this.playlistCreators;
 	}
 
-	//Algorithm that counts category occurances of the beers in beerbags
-	//returns the resulting playlist + creator in one string
+	//Algorithm that counts category occurances of the beers in beerbags and maps it to playlists
 	this.generatePlaylist = function(){
 		var categories = {
 			'1' : 0,
@@ -339,52 +346,67 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			'14' : 0
 		};
 
-		beerList = this.getSelectedBeers();
-		if (beerList.length > 0){
-			for (var i = 0; i < beerList.length; i++) {
-    		categories[beerList[i].style.categoryId] = categories[beerList[i].style.categoryId] + 1;
+		beerList = this.getSelectedBeersAndValue();
+
+		if (this.isNotEmpty(_this.selectedBeers)){
+			for (key in beerList) {
+    			categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
 			}
 
-		var highestValue = -1;
-		var selectedID = 0;
+			var highestValue = -1;
+			var selectedID = 0;
 
-		for (var key in categories) { //algorithm to see what category has the highest ocourance in beerbag
-			if(categories[key] > highestValue){
-				selectedID = key;
-				highestValue = categories[key];
-				//console.log("HighestValue " + highestValue);
-				//console.log("Selected id: " + selectedID); 
+			for (var key in categories) { //algorithm to see what category has the highest ocourance in beerbag
+				if(categories[key] > highestValue){
+					selectedID = key;
+					highestValue = categories[key];
+				}
 			}
-		}
-		
-		var playlist = this.getPlaylistIds();
-		var creators = this.getPlaylistCreators();
+			//console.log("HighestValue " + highestValue);
+			//console.log("Selected id: " + selectedID); 
+			
+			var playlist = this.getPlaylistIds();
+			var creators = this.getPlaylistCreators();
 
-		var p = playlist[selectedID-1];
-		var c = creators[selectedID-1];
-		
-		this.selectPlaylist(p,c);
+			var p = playlist[selectedID-1];
+			var c = creators[selectedID-1];
 
-		}else{
-			console.log("generatePlaylist: BeerList is empty");
+			this.selectPlaylist(p,c);
+
+		} else{
+			//console.log("generatePlaylist: BeerList is empty, refreshing playlist");
+			_this.pID = '';
 		}
 	}
 
 	//adds a playlist to list selectedPlaylist
 	//Input: playlist id, creator id
-	this.selectPlaylist = function(playlist, creator){
-		var id = playlist;
+	this.selectPlaylist = function(playlistID, creator){
+		//console.log(" playlist id: " + playlistID); 
+		//console.log(" _this.pid: " + _this.pID);
+		var p = playlistID
 		var username = creator;
 
-		this.PlaylistByCreatorAndID.get({username:username, id:id},function(data){
-			if (id in _this.selectedPlaylists) {
-				//already selected
-				console.log("Playlist is already selected");
-			}else {
-				_this.selectedPlaylists[id] = {creator: username, playlist: data}; //save playlist in local list
-				console.log("Playlist " + id + " included in list");
-			}
-		});
+		if (playlistID === _this.pID ) {
+			//already selected
+			//console.log("Playlist already selected");
+		}else {
+			this.PlaylistByCreatorAndID.get({username:username, id:p},function(data){
+				_this.selectedPlaylist[p] = {creator: username, playlist: data}; //save playlist data in dictionary
+				_this.pID = p; //selected ID for now
+				//console.log("selected pID: " + p);
+			});
+		}
+	}
+
+	//sends back the current playlist data
+	this.getCurrentPlaylist = function(){
+		var key = _this.pID;
+		if (key in _this.selectedPlaylist){
+			return _this.selectedPlaylist[key].playlist;
+		} else{
+			return null;
+		}
 	}
 
 	//removes playlist from list selectedPlaylist 
@@ -392,38 +414,25 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	this.deselectPlaylist = function(beer){
 		//console.log("entering deselect playlist");
 
-		var playlist = this.getPlaylistIds();
 		var beerList = this.getSelectedBeers();
-
 		for (var i = 0; i < beerList.length; i++){
 			if (beerList[i].id = beer && beerList[i].style != undefined){
 				var selectedID = beerList[i].style.categoryId;
 			}
 		}
-		//console.log("selectedID: " + selectedID);
 
+		var playlist = this.getPlaylistIds();
 		var playlistID = playlist[selectedID-1];
-
 		delete _this.selectedPlaylists[playlistID];
 	}
 
-	//return all selected playlist objects
-	this.getSelectedPlaylistsData = function(){
-		var check = false;
-		var playlists = [];
-		for (key in this.selectedPlaylists){
-			//console.log("key: " + key);
-			playlists.push(_this.selectedPlaylists[key].playlist);
-			check = true;
-		}
-		if (check == true){
-			return playlists[0];
-		}		
+	//to check if object is empty
+	this.isNotEmpty = function(ob){
+		for(var i in ob){ 
+			return true;}
+		return false;
 	}
 
-	this.getSelectedPlaylists = function(){
-		return this.selectedPlaylists;
-	}
-
-	return this;
+return this;
+ 	
 });

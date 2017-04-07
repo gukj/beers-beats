@@ -5,12 +5,10 @@ beersBeatsApp.controller('playerCtrl', function($scope, model){
 
     // Return for ng-repeat
     $scope.getPlaylist = function() {
-        var data = model.getSelectedPlaylistsData();
+        var data = model.getCurrentPlaylist();
         if (data){
-            //console.log("tried to generate playlist: " + data.playlist.tracks.items);
             $scope.spotifyPlaylistSongs = data.playlist.tracks.items;
         }else{
-            console.log("Beerbag is empty");
             $scope.spotifyPlaylistSongs = null; //TODO: Show something instead of just empty rows?
         
         }
