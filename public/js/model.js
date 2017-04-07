@@ -237,8 +237,20 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		this.BeerByID.get({id:id},function(data){
 			if (id in _this.selectedBeers) {
 				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
-			}else {
+			} else {
 				_this.selectedBeers[id] = { value: 1, beer: data};
+				//prep for toggle of text
+				if( _this.selectedBeers[id]['beer']['style'] != undefined){
+					_this.selectedBeers[id]['beer']['textExists'] = true;
+					_this.selectedBeers[id]['beer']['hidden'] = true;
+					_this.selectedBeers[id]['beer']['maxTextLength'] = 410;
+					_this.selectedBeers[id]['beer']['infoText'] = "... View more";
+				} else {
+					_this.selectedBeers[id]['beer']['textExists'] = false;
+					_this.selectedBeers[id]['beer']['hidden'] = true;
+					_this.selectedBeers[id]['beer']['maxTextLength'] = 0;
+					_this.selectedBeers[id]['beer']['infoText'] = "";
+				}
 				_this.generatePlaylist();
 			}
 		});
@@ -247,20 +259,47 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//remove beers to BAG/favourites
 	this.deselectBeer = function(beerID){
+		console.log('id', beerID);
 		_this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 		if (_this.selectedBeers[beerID].value < 1) {
 			_this.deselectPlaylist(beerID);
+			console.log('before delete',_this.selectedBeers);
 			delete _this.selectedBeers[beerID];
+			//gör så att resterande beerID blir bara true! kaoz
+			console.log('after delete',_this.selectedBeers);
 		}
 	}
 
 	//return all selected beer objects
 	this.getSelectedBeers = function(){
 		var beers = [];
-		for (key in this.selectedBeers){
+		for (key in _this.selectedBeers){
 			beers.push(this.selectedBeers[key].beer);
 		}
 		return beers;
+	}
+
+	//toggles the text display of a beer object
+	this.toggleBeerText = function(beerID){
+		//find object in this.selectedBeers
+		//console.log('toggle object', _this.selectedBeers[beerID])
+		if ( _this.selectedBeers[beerID]['beer']['textExists'] == true) {
+			//console.log('first if');
+
+			//change attributes
+			if(_this.selectedBeers[beerID]['beer']['hidden'] == true){
+				//console.log('if');
+				_this.selectedBeers[beerID]['beer']['hidden'] = false;
+				_this.selectedBeers[beerID]['beer']['maxTextLength'] = 1000;
+				_this.selectedBeers[beerID]['beer']['infoText'] = "Show less";
+			} else {
+				//console.log('else');
+				_this.selectedBeers[beerID]['beer']['hidden'] = true;
+				_this.selectedBeers[beerID]['beer']['maxTextLength'] = 410;
+				_this.selectedBeers[beerID]['beer']['infoText'] = "... View more";
+			}
+		}
+		//console.log('after toggle', _this.selectedBeers[beerID]);
 	}
 
 	this.getSelectedBeersAndValue = function(){
@@ -357,7 +396,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		var beerList = this.getSelectedBeers();
 
 		for (var i = 0; i < beerList.length; i++){
-			if (beerList[i].id = beer){
+			if (beerList[i].id = beer && beerList[i].style != undefined){
 				var selectedID = beerList[i].style.categoryId;
 			}
 		}
