@@ -1,8 +1,4 @@
-
-
-<!--Beer view, showing only the beers selected in the previous views, as well as some information about each beer
-
-Julia vH-->
+<!--Beer view, showing only the beers selected in the previous views, as well as some information about each beer-->
 
 <h2>Your beers</h2>
 <hr>
@@ -14,7 +10,9 @@ Julia vH-->
 	<br>
 	<div class="row">
 	<div class="col"><img class="card-img-top img-thumbnail" ng-src="{{beer.labels.medium}}" /> </div>
-	<div class="col">{{beer.style.description}}</div>
+	<div class="col">{{beer.style.description | limitTo:beer.maxTextLength}}<div ng-click="toggleText(beer.id)"><strong>{{beer.infoText}}</strong></div>
+	</div>
+
 	<div class="col"><div class="btn btn-primary" ng-click=remove(beer.id)>Remove</div></div>
 	<br>
 	<br>
