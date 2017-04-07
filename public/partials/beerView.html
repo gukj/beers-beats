@@ -7,14 +7,14 @@ Julia vH-->
 <h2>Your beers</h2>
 <hr>
 
-<div ng-repeat="beer in beers track by $index">
+<div ng-repeat="beer in beers(tmp) track by $index">
 	<hr>
 	<h3>{{beer.nameDisplay}}</h3>
 	<h4>{{beer.style.category.name}} </h4>
 	<br>
 	<div class="row">
 	<div class="col"><img class="card-img-top img-thumbnail" ng-src="{{beer.labels.medium}}" /> </div>
-	<div class="col">{{beer.style.description | limitTo:beer.maxTextLength}}<div ng-click="toggleText(beer.id)">{{beer.infoText}}</div>
+	<div class="col">{{beer.style.description | limitTo:beer.maxTextLength}}<div ng-click="toggleText(beer.id)"><strong>{{beer.infoText}}</strong></div>
 	</div>
 
 	<div class="col"><div class="btn btn-primary" ng-click=remove(beer.id)>Remove</div></div>
