@@ -8,7 +8,7 @@ beersBeatsApp.controller('profileCtrl', function($scope, model){
     _this.openError();
   });
 
-  //Spans the modal
+  //Opens error message on screen
   _this.openError = function(){
     angular.element('#errorModal').modal('show');
   }

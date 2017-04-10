@@ -1,5 +1,5 @@
 <!-- profileView -->
-<h3>Your Profile</h3>
+<h3>Your Profile</h3> <!-- Populates page with data from profileCtrl -->
 <div class="container">
 	<hr>
 	<br>
@@ -19,6 +19,8 @@
 			URI: {{profile.uri}}
 		</div>
 	</div>
+
+	<!-- Error handling if the user is not loged in with spotify, redirectes to login page-->
 	<div ng-init="checked=true" id ="myModal" data-toggle="modal" data-target="#errorModal">
 		<span ng-if="checked" class="animate-if">
 	   <div class="modal" id="errorModal" role="dialog">
