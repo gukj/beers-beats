@@ -254,7 +254,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 					_this.selectedBeers[id]['beer']['textExists'] = false;
 					_this.selectedBeers[id]['beer']['hidden'] = true;
 					_this.selectedBeers[id]['beer']['maxTextLength'] = 0;
-					_this.selectedBeers[id]['beer']['infoText'] = "";
+					_this.selectedBeers[id]['beer']['infoText'] = "No info to show";
 				}
 
 			}
