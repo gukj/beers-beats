@@ -13,9 +13,9 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
       $scope.status = "Searching for the perfect random beer...";
       _this.openModal();
       model.RandomBeer.get({},function(data){
-        if (_this.cModal == false){
+        if (_this.cModal == false){ // If cancel button is not pressed, populate with data
           $scope.beers = {data};
-          _this.closeModal();
+          _this.closeModal(); // Close the modal
         }
         },function(data){
           $scope.status = "There was an error";
@@ -23,13 +23,14 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
     } else {
       $scope.status = "Searching for some nice beers...";
       _this.openModal();
+      //Makes a request with the query in the search field in SearchView.html
       model.BeerByName.get({name:name},function(data){
-        if (_this.cModal == false) {
+        if (_this.cModal == false) {// If cancel button is not pressed, populate with data
           $scope.beers = data;
-          $scope.results = "Showing " + data.length + " results";
-          _this.closeModal();
+          $scope.results = "Showing " + data.length + " results"; //Shows how many search results there is
+          _this.closeModal(); // Close the modal
         }
-        },function(data){
+      },function(data){ // Error handeling
           $scope.status = "There was an error";
       });
     }
@@ -51,7 +52,7 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
     //$scope.checked=false;
   }
 
-  //Sets CModal to true, which stops the data from the API request not being printed out
+  //Sets cModal to true, which stops the data from the API request not being printed out
   $scope.cancelAPICall = function(){
     _this.cModal = true;
   }
