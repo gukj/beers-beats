@@ -22,7 +22,7 @@
   <!-- Spans a card for each beer in the search results. Makes the picture clickable -->
 
   <div class="card-columns">
-      <div ng-repeat="beer in beers" ng-init"checked=flase" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)">
+      <div ng-repeat="beer in beers" ng-init"checked=false" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)">
           <a href="#!/selectedBeer/{{beer.id}}">
               <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
           </a>
@@ -36,7 +36,7 @@
 
 
  <!-- While searching, a modal i spaned to indicate there is a process going on. Shows the proper status message from SearchCtrl-->
-  <span ng-if="checked" class="animate-if">
+   <span ng-if="checked" class="animate-if">
     <div class="modal" id="myModal" role="dialog">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -46,7 +46,7 @@
           <div class="modal-body">
             <img img class="card-img-top img-fluid" ng-src="../img/loading-beer.gif" />
           </div>
-            <button type="button" class="btn btn-primary" ng-click="cancelAPICall()" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" ng-click="cancelAPICall()" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>

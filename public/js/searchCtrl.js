@@ -42,7 +42,7 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
   }
 
   //Spans the modal
-  this.openModal = function(message){
+  this.openModal = function(){
     $scope.checked=true;
   }
 
