@@ -71,7 +71,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			var tmp =  angular.fromJson(data);
 			for (var i = 0; i < tmp.data.length; i++ ) {
 				if (tmp.data[i].labels == null){
-					tmp.data[i]['labels'] = {	large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png',
+					tmp.data[i]['labels'] = {	large : '../img/logo.svg',
 																	medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
 																	icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
 			  }
@@ -243,7 +243,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				_this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
 			} else {
 				_this.selectedBeers[id] = { value: 1, beer: data};
-        
+
 				//prep for toggle of text
 				if( _this.selectedBeers[id]['beer']['style'] != undefined){
 					_this.selectedBeers[id]['beer']['textExists'] = true;
@@ -256,7 +256,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 					_this.selectedBeers[id]['beer']['maxTextLength'] = 0;
 					_this.selectedBeers[id]['beer']['infoText'] = "";
 				}
-        
+
 			}
 			_this.generatePlaylist();
 		});
@@ -268,7 +268,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		console.log('id', beerID);
 		_this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 		if (_this.selectedBeers[beerID].value < 1) {
-			
+
       _this.deselectPlaylist(beerID);
 			console.log('before delete',_this.selectedBeers);
 			delete _this.selectedBeers[beerID];
@@ -363,8 +363,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				}
 			}
 			//console.log("HighestValue " + highestValue);
-			//console.log("Selected id: " + selectedID); 
-			
+			//console.log("Selected id: " + selectedID);
+
 			var playlist = this.getPlaylistIds();
 			var creators = this.getPlaylistCreators();
 
@@ -382,7 +382,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//adds a playlist to list selectedPlaylist
 	//Input: playlist id, creator id
 	this.selectPlaylist = function(playlistID, creator){
-		//console.log(" playlist id: " + playlistID); 
+		//console.log(" playlist id: " + playlistID);
 		//console.log(" _this.pid: " + _this.pID);
 		var p = playlistID
 		var username = creator;
@@ -409,7 +409,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	}
 
-	//removes playlist from list selectedPlaylist 
+	//removes playlist from list selectedPlaylist
 	//Input: beer id
 	this.deselectPlaylist = function(beer){
 		//console.log("entering deselect playlist");
@@ -428,11 +428,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//to check if object is empty
 	this.isNotEmpty = function(ob){
-		for(var i in ob){ 
+		for(var i in ob){
 			return true;}
 		return false;
 	}
 
 return this;
- 	
+
 });
