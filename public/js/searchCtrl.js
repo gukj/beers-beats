@@ -42,14 +42,14 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
   }
 
   //Spans the modal
-  this.openModal = function(message){
+  this.openModal = function(){
     $scope.checked=true;
   }
 
   //Closes the modal
   this.closeModal = function() {
     angular.element('.modal').triggerHandler('click');
-    //$scope.checked=false;
+    $scope.checked=false;
   }
 
   //Sets cModal to true, which stops the data from the API request not being printed out
