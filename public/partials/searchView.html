@@ -1,8 +1,9 @@
 
-<ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
-<ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
+
 <!--Search page that allows the user to search for beers using multiple kinds of input: free text or by using the random function-->
-<div class="col-md-8" id="search">
+<div class="row">
+
+<div class="col-8" id="search">
 
   <h3>Search Beers</h3>
   <div class="container">
@@ -54,4 +55,13 @@
       </div>
     </span>
   </div>
+</div>
+<div class="col-4">
+    <div class="row">
+        <ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
+    </div>
+    <div class="row">
+    <ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
+    </div>
+</div>
 </div>
