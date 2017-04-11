@@ -82,21 +82,26 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
   });
 
 //get beer by id
-
 //INPUT: id of beer
-
 	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				//console.log(tmp);
 				if (tmp.data.labels == null){
 					tmp.data['labels'] = {	large : '../img/logo.svg',
 											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
 											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
-			  	}
-
+			  }
+				if (tmp.data.isOrganic == 'Y'){
+					tmp.data.isOrganic = {Organic : 'This is an organic beer',
+																Url : "https://yt3.ggpht.com/-3R9per0uGmc/AAAAAAAAAAI/AAAAAAAAAAA/kIMAoxVEko4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
+															};
+				} else {
+					tmp.data.isOrganic = {Organic : 'This is not an organic beer',
+																Url : "http://www.ezeeguides.com/Anon/UserAsset/GetImage/167ee5b0-5483-443f-b9f9-27cbf50c65c5"
+															};
+				}
 				return tmp.data;
 			}
     }
