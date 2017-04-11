@@ -96,7 +96,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
 
-				//console.log(tmp);
 				try{
 					  if (tmp.data.labels == null){
 					  tmp.data['labels'] = {	large : '../img/logo.svg',
@@ -109,6 +108,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				} else {
 					tmp.data.isOrganic = {Organic : 'This is not an organic beer',
 																Url : "http://www.ezeeguides.com/Anon/UserAsset/GetImage/167ee5b0-5483-443f-b9f9-27cbf50c65c5"};
+				}
+				if (tmp.data.style == undefined){
+					tmp.data['style'] = {'description' : "No information to show...",
+					category : {'name' : "This beer has no category"}};
 				}
 				return tmp.data;
 				}catch(err){
