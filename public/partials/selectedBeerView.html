@@ -13,7 +13,9 @@ vangborg-->
 	</div>
 	<div class="col">
 		<div class="row">
-			<img img class="card-img-top img-thumbnail" ng-src={{beer.isOrganic.Url}} width="100" height="100"/>
+			<a data-toggle="popover" data-trigger="hover" title="{{beer.isOrganic.Organic}}">
+				<img img class="card-img-top img-thumbnail" ng-src={{beer.isOrganic.Url}} width="100" height="100"/>
+			</a>
 		</div>
 		<br><br><br>
 		<div class="row">

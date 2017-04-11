@@ -94,11 +94,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
 			  }
 				if (tmp.data.isOrganic == 'Y'){
-					tmp.data.isOrganic = {Organic : 'Y',
+					tmp.data.isOrganic = {Organic : 'This is an organic beer',
 																Url : "https://yt3.ggpht.com/-3R9per0uGmc/AAAAAAAAAAI/AAAAAAAAAAA/kIMAoxVEko4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
 															};
 				} else {
-					tmp.data.isOrganic = {Organic : 'N',
+					tmp.data.isOrganic = {Organic : 'This is not an organic beer',
 																Url : "http://www.ezeeguides.com/Anon/UserAsset/GetImage/167ee5b0-5483-443f-b9f9-27cbf50c65c5"
 															};
 				}
