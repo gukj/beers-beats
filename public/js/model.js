@@ -364,8 +364,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				try{
 					categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
 				}catch(err){
-					console.log('exception: ',err);
-					categories[14] = categories[14] + beerList[14].value;
+					//console.log('exception: ',err);
+					categories[14] = categories[14] + beerList[key].value;
 				}
 			}
 
