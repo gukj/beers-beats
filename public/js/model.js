@@ -103,9 +103,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 															};
 				}
 				if (tmp.data.style == undefined){
-					tmp.data.style = {description : 'No information to show...',
-																	category : {name : 'This beer has no category'}
-																};
+					tmp.data['style'] = {'description' : "No information to show...",
+					category : {'name' : "This beer has no category"}};
 				}
 				return tmp.data;
 			}
