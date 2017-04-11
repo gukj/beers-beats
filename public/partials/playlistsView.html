@@ -16,7 +16,7 @@
                 <th scope="row">{{$index + 1}}
                     <!--TODO: {{song.number}}-->
                 </th>
-                <td><img class="img-fluid" src="{{song.track.album.images[2].url}}" alt="{{song.track.album.name}} Album Cover" /></td>
+                <td><img class="img-fluid" ng-src="{{song.track.album.images[2].url}}" alt="{{song.track.album.name}} Album Cover" /></td>
                 <td>{{song.track.name}}</td>
                 <td>{{song.track.artists[0].name}}</td>
                 <td>{{msToMinSec(song.track.duration_ms)}}</td>
