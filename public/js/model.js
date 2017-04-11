@@ -216,6 +216,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			headers: {'Authorization': 'Bearer ' + access_token },
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
+				//if there is no profile pic to show
+				if (!tmp.images){
+					tmp.images.push({ url: '../img/logo.svg'});
+				}
 				return tmp;
 			}
 		}
