@@ -6,7 +6,7 @@
 <h3>Search Beers</h3>
 <div class="container">
   <div class="row">
-    <div class="dropdown">
+    <div>
       <input ng-model="query" />
       <button ng-click="search(query)" class="btn btn-primary ml-3 my-3" ng-init="checked=true" id ="loading" data-toggle="modal" data-target="#myModal">Find</button>
     </div>
@@ -16,7 +16,6 @@
   <!-- Showing how many results there is -->
   {{results}}
   <br>
-
   <hr>
 
   <!-- Spans a card for each beer in the search results. Makes the picture clickable -->
@@ -24,7 +23,6 @@
   <div class="card-columns">
       <div ng-repeat="beer in beers" ng-init"checked=false" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)" data-toggle="popover" data-title="beer.name" data-content="">
           <a href="#!/selectedBeer/{{beer.id}}" >
-
               <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
           </a>
           <div class="card-block">
