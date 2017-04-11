@@ -22,8 +22,8 @@
   <!-- Spans a card for each beer in the search results. Makes the picture clickable -->
 
   <div class="card-columns">
-      <div ng-repeat="beer in beers" ng-init"checked=flase" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)">
-          <a href="#!/selectedBeer/{{beer.id}}">
+      <div ng-repeat="beer in beers" ng-init"checked=flase" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)" data-toggle="popover" data-title="beer.name" data-content="">
+          <a href="#!/selectedBeer/{{beer.id}}" >
               <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
           </a>
           <div class="card-block">
