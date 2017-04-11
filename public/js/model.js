@@ -10,12 +10,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         return JSON.parse(this.getItem(key))
     }
     var localBeerBag = localStorage.getObj('localBeerBag');
-    if (!localBeerBag.length > 0) {
+    if (localBeerBag === null) {
         localBeerBag = [];
         localStorage.setObj('localBeerBag', localBeerBag);
     }
 	// END: COOKIE CHECKS
-  
+
 /* STATIC VAR DECLERATIONS */
 
 //Saves token for specific session. When token runs out, you have to login again to continuous use.
@@ -95,7 +95,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-       
+
 				//console.log(tmp);
 				try{
 					  if (tmp.data.labels == null){
@@ -113,7 +113,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				return tmp.data;
 				}catch(err){
 					console.log('There was an request error, please try again');
-				}  
+				}
     	}
     }
   });
@@ -135,6 +135,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				console.log('There was an request error, please try again');
 			}
     }
+}
   });
 
 	//get beer categoryId from a certain beer by name
@@ -288,12 +289,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         });
 
     }
-  
+
 	//Removes one beer from beerbag
 	//INPUT: beerid
 	this.deselectBeer = function(beerID){
 		//console.log('id', beerID);
-    
+
     // Remove beer from localStorage
     var localBeerBagIndex = localBeerBag.indexOf(beerID);
     if (localBeerBagIndex > -1) {
@@ -442,7 +443,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}else {
 			this.PlaylistByCreatorAndID.get({username:username, id:p},function(data){
 				_this.selectedPlaylist[p] = {creator: username, playlist: data}; //save playlist data in dictionary
-				_this.pID = p; //selected playlist ID 
+				_this.pID = p; //selected playlist ID
 				//console.log("selected pID: " + p);
 			});
 		}
@@ -480,7 +481,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			return true;}
 		return false;
 	}
-  
+
   // Set beers from cookie
     if (localBeerBag !== null) {
         for (var i = 0; i < localBeerBag.length; i++) {
