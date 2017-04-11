@@ -18,28 +18,22 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
   
 /* STATIC VAR DECLERATIONS */
 
-//saves the token for specific session. When token runs out, you have to login again.
+//Saves token for specific session. When token runs out, you have to login again to continuous use.
 	if ($routeParams.access_token){
 		var access_token = $routeParams.access_token;
-		//console.log($routeParams.access_token);
 	}else{
 		//TODO: infobox that user is unauthorized
-		//redirection to homepage or login
-		//ful popupwindow som varnar om att session is ended
 		console.log("Unauthorized user, session has ended");
 	}
 
 	var _this = this;
 
-	this.selectedBeers = {};
+	this.selectedBeers = {}; //current selected beers
 
-	this.selectedPlaylists = {};
+	this.selectedPlaylist = {}; //locally stored playlists for fast access
 
-	this.selectedPlaylist = {};
+	this.pID = ''; //id of current "to display" playlist
 
-	this.pID = '';
-
-	//can randomizas mer
 	this.playlistIDs = ['6S9xIadSkBAUP5wpOaArZc', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
 										'2OfjDjNGlp8Z9uh2yNCzkb', // North American Origin Ales
@@ -74,9 +68,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* API CALLS */
 
-//get beer by name
+//get beer object by name
 //INPUT: name of beer
-
 	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
@@ -86,8 +79,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			for (var i = 0; i < tmp.data.length; i++ ) {
 				if (tmp.data[i].labels == null){
 					tmp.data[i]['labels'] = {	large : '../img/logo.svg',
-																	medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
-																	icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
+												medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
+												icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
 			  }
 			}
 			return tmp.data;
@@ -95,29 +88,33 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	}
   });
 
-//get beer by id
+//get beer object by id
 //INPUT: id of beer
 	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
-    get: {
+	    get: {
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				if (tmp.data.labels == null){
-					tmp.data['labels'] = {	large : '../img/logo.svg',
+       
+				//console.log(tmp);
+				try{
+					  if (tmp.data.labels == null){
+					  tmp.data['labels'] = {	large : '../img/logo.svg',
 											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
 											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
-			  }
+			        }
 				if (tmp.data.isOrganic == 'Y'){
-					tmp.data.isOrganic = {Organic : 'This is an organic beer',
-																Url : "https://yt3.ggpht.com/-3R9per0uGmc/AAAAAAAAAAI/AAAAAAAAAAA/kIMAoxVEko4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"
-															};
+					  tmp.data.isOrganic = {Organic : 'This is an organic beer',
+																Url : "https://yt3.ggpht.com/-3R9per0uGmc/AAAAAAAAAAI/AAAAAAAAAAA/kIMAoxVEko4/s100-c-k-no-mo-rj-c0xffffff/photo.jpg"};
 				} else {
 					tmp.data.isOrganic = {Organic : 'This is not an organic beer',
-																Url : "http://www.ezeeguides.com/Anon/UserAsset/GetImage/167ee5b0-5483-443f-b9f9-27cbf50c65c5"
-															};
+																Url : "http://www.ezeeguides.com/Anon/UserAsset/GetImage/167ee5b0-5483-443f-b9f9-27cbf50c65c5"};
 				}
 				return tmp.data;
-			}
+				}catch(err){
+					console.log('There was an request error, please try again');
+				}  
+    	}
     }
   });
 
@@ -127,22 +124,21 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			method: 'GET',
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				if (tmp.data.labels == null){
-					tmp.data['labels'] = {	large : '../img/logo.svg',
-											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
-											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
-			  	}
-				return tmp.data;
+				try{
+					if (tmp.data.labels == null){
+						tmp.data['labels'] = {	large : '../img/logo.svg',
+												medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
+												icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
+				  	}
+					return tmp.data;
+				}catch(err){
+				console.log('There was an request error, please try again');
 			}
     }
   });
 
-	//get beers given a country (category)
-
-	//get country (category) given a beer
-
+	//get beer categoryId from a certain beer by name
 	//INPUT: name of beer
-
 	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
 		get: {
 			method: 'GET',
@@ -245,21 +241,13 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	});
 
 
-	/* MODEL FUNCTIONS */
+	/* MODEL FUNCTIONS BEER */
 
-	//given a beer, get its country and return playlist
+	//TODO: add beer object to favourites
 
-	//given a playlist, get its country and return list of beers
+	//TODO: add playlists to favourites
 
-	//get playlist given country
-
-	//get country given playlist
-
-	//add beer object to favourites
-
-	//add playlists to favourites
-
-	//add beer-playlist combo to playlist
+	//TODO: add beer-playlist combo to favourites
 
 	this.selectBeer = function(beer, fromCookie) {
         // Add beer to localStorage
@@ -300,32 +288,31 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         });
 
     }
+  
+	//Removes one beer from beerbag
+	//INPUT: beerid
+	this.deselectBeer = function(beerID){
+		//console.log('id', beerID);
+    
+    // Remove beer from localStorage
+    var localBeerBagIndex = localBeerBag.indexOf(beerID);
+    if (localBeerBagIndex > -1) {
+        localBeerBag.splice(localBeerBagIndex, 1);
+    }
+    localStorage.setObj('localBeerBag', localBeerBag)
+    // END: Remove beer from localStorage
 
-	//remove a beer from BAG/favourites
-    this.deselectBeer = function(beerID) {
-        console.log('id', beerID);
+    //If we have several of one beer, we must decrement the amount
+    _this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 
-        // Remove beer from localStorage
-        var localBeerBagIndex = localBeerBag.indexOf(beerID);
-        if (localBeerBagIndex > -1) {
-            localBeerBag.splice(localBeerBagIndex, 1);
-        }
-        localStorage.setObj('localBeerBag', localBeerBag)
-        // END: Remove beer from localStorage
+    //If there was only one beer of this type, we remove it from the beer bag
+    if (_this.selectedBeers[beerID].value < 1) {
 
-        //If we have several of one beer, we must decrement the amount
-        _this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
+          //Remove the playlist generated by this beer
+          _this.deselectPlaylist(beerID);
 
-        //If there was only one beer of this type, we remove it from the beer bag
-        if (_this.selectedBeers[beerID].value < 1) {
-
-
-            //Remove the playlist generated by this beer
-            _this.deselectPlaylist(beerID);
-
-            //Remove the beer
-            delete _this.selectedBeers[beerID]; //this returns true
-
+          //Remove the beer
+          delete _this.selectedBeers[beerID]; //this returns true
         }
 
         //reset the correct beer id property of the remaining beers
@@ -335,7 +322,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         _this.generatePlaylist();
     }
 
-	//return all selected beer objects
+	//Return all selected beer objects
 	this.getSelectedBeers = function(){
 		var beers = [];
 		for (key in _this.selectedBeers){
@@ -344,7 +331,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return beers;
 	}
 
-	//toggles the text display of a beer object
+	//Toggles the text display of a beer object
 	this.toggleBeerText = function(beerID){
 		//find object in this.selectedBeers
 		//console.log('toggle object', _this.selectedBeers[beerID])
@@ -371,8 +358,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return this.selectedBeers;
 	}
 
-
-	//SPOTIFYPLAYLISTS
+	/* MODEL FUNCTIONS PLAYLISTS */
 
 	//returns the list "PlaylistIds" to prepare api call for generatePlaylist
 	this.getPlaylistIds = function(){
@@ -411,6 +397,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 					categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
 				}catch(err){
 					//console.log('exception: ',err);
+					//Handles the case where style.categoriId is not available for specific beer
 					categories[14] = categories[14] + beerList[key].value;
 				}
 			}
@@ -441,7 +428,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	}
 
-	//adds a playlist to list selectedPlaylist
+	//Adds a playlist to list selectedPlaylist
 	//Input: playlist id, creator id
 	this.selectPlaylist = function(playlistID, creator){
 		//console.log(" playlist id: " + playlistID);
@@ -455,13 +442,13 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}else {
 			this.PlaylistByCreatorAndID.get({username:username, id:p},function(data){
 				_this.selectedPlaylist[p] = {creator: username, playlist: data}; //save playlist data in dictionary
-				_this.pID = p; //selected ID for now
+				_this.pID = p; //selected playlist ID 
 				//console.log("selected pID: " + p);
 			});
 		}
 	}
 
-	//sends back the current playlist data
+	//Returns the current playlist data
 	this.getCurrentPlaylist = function(){
 		var key = _this.pID;
 		if (key in _this.selectedPlaylist){
@@ -471,10 +458,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	}
 
-	//removes playlist from list selectedPlaylist
+	//Removes playlist from list selectedPlaylist
 	//Input: beer id
 	this.deselectPlaylist = function(beer){
-		//console.log("entering deselect playlist");
 
 		var beerList = this.getSelectedBeers();
 		for (var i = 0; i < beerList.length; i++){
@@ -485,10 +471,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 		var playlist = this.getPlaylistIds();
 		var playlistID = playlist[selectedID-1];
-		delete _this.selectedPlaylists[playlistID];
+		delete _this.selectedPlaylist[playlistID];
 	}
 
-	//to check if object is empty
+	//For checking if object is empty, used in generatePlaylist
 	this.isNotEmpty = function(ob){
 		for(var i in ob){
 			return true;}
