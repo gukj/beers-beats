@@ -109,8 +109,10 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
 				if (tmp.data.labels == null){
-						tmp.data['labels'] = {large : 'http://pngimg.com/uploads/beer/beer_PNG2388.png'};
-					}
+					tmp.data['labels'] = {	large : '../img/logo.svg',
+											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
+											icon : 'http://jekyllandhydeserie.com/jekyll/wp-content/uploads/2011/10/beer-icon.png'};
+			  	}
 				return tmp.data;
 			}
     }
