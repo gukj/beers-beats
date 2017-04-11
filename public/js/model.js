@@ -363,7 +363,12 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 		if (this.isNotEmpty(_this.selectedBeers)){
 			for (key in beerList) {
-    			categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
+				try{
+					categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
+				}catch(err){
+					console.log('exception: ',err);
+					categories[14] = categories[14] + beerList[14].value;
+				}
 			}
 
 			var highestValue = -1;
