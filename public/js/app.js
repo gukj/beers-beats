@@ -8,7 +8,7 @@ beersBeatsApp.config( [ '$routeProvider',
             controller: 'homeCtrl'
         } ).
         when( '/home', {
-            templateUrl: 'partials/searchView.html', //ÄNDRAT
+            templateUrl: 'partials/searchView.html', 
             controller: 'searchCtrl'
         } ).
 

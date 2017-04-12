@@ -262,7 +262,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         if (!thisFromCookie) {
             localBeerBag.push(beer);
             localStorage.setObj('localBeerBag', localBeerBag);
-			//console.log(localBeerBag);
         }
         // END: Add beer to localStorage
         var id = beer;
@@ -277,7 +276,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
                     beer: data
                 };
 
-                //prep for toggle of text
+                //prepare for toggle of text
                 if (_this.selectedBeers[id]['beer']['style'] != undefined) {
                     _this.selectedBeers[id]['beer']['textExists'] = true;
                     _this.selectedBeers[id]['beer']['hidden'] = true;
@@ -357,22 +356,18 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	this.toggleBeerText = function(beerID){
 		//find object in this.selectedBeers
 		if ( _this.selectedBeers[beerID]['beer']['textExists'] == true) {
-			//console.log('first if');
 
 			//change attributes
 			if(_this.selectedBeers[beerID]['beer']['hidden'] == true){
-				//console.log('if');
 				_this.selectedBeers[beerID]['beer']['hidden'] = false;
 				_this.selectedBeers[beerID]['beer']['maxTextLength'] = 1000;
 				_this.selectedBeers[beerID]['beer']['infoText'] = "Show less";
 			} else {
-				//console.log('else');
 				_this.selectedBeers[beerID]['beer']['hidden'] = true;
 				_this.selectedBeers[beerID]['beer']['maxTextLength'] = 410;
 				_this.selectedBeers[beerID]['beer']['infoText'] = "... View more";
 			}
 		}
-		//console.log('after toggle', _this.selectedBeers[beerID]);
 	}
 
 	this.getSelectedBeersAndValue = function(){
@@ -427,7 +422,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				try{
 					categories[beerList[key].beer.style.categoryId] = categories[beerList[key].beer.style.categoryId] + beerList[key].value;
 				}catch(err){
-					//console.log('exception: ',err);
 					//Handles the case where style.categoriId is not available for specific beer
 					categories[14] = categories[14] + beerList[key].value;
 				}
@@ -442,8 +436,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 					highestValue = categories[key];
 				}
 			}
-			//console.log("HighestValue " + highestValue);
-			//console.log("Selected id: " + selectedID);
 
 			var playlist = this.getPlaylistIds();
 			var creators = this.getPlaylistCreators();
@@ -455,27 +447,23 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			this.selectPlaylist(p,c);
 
 		} else{
-			//console.log("generatePlaylist: BeerList is empty, refreshing playlist");
-			_this.pID = '';
+			_this.pID = ''; //Empty current playlist
 		}
 	}
 
 	//Adds a playlist to list selectedPlaylist
 	//Input: playlist id, creator id
 	this.selectPlaylist = function(playlistID, creator){
-		//console.log(" playlist id: " + playlistID);
-		//console.log(" _this.pid: " + _this.pID);
+
 		var p = playlistID
 		var username = creator;
 
 		if (playlistID === _this.pID ) {
-			//already selected
-			//console.log("Playlist already selected");
+			//already selected -> do nothing
 		}else {
 			this.PlaylistByCreatorAndID.get({username:username, id:p},function(data){
 				_this.selectedPlaylist[p] = {creator: username, playlist: data}; //save playlist data in dictionary
 				_this.pID = p; //selected playlist ID
-				//console.log("selected pID: " + p);
 			});
 		}
 	}

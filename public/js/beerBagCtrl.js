@@ -3,7 +3,6 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
   var target = "";
   var source = "";
   $scope.beerBag = model.getSelectedBeersAndValue();
-  //$scope.counting = model.countBeersinBag();
 
   $scope.onDrop = function(){
     console.log("dropped " + source + " on " + target);

@@ -6,7 +6,6 @@ beersBeatsApp.controller('playerCtrl', function($scope, model){
         if (data){
             $scope.spotifyPlaylistSongs = data.playlist.tracks.items;
         }else{
-            //TODO: Show something instead of just empty rows?
             $scope.spotifyPlaylistSongs = null;
 
         }
