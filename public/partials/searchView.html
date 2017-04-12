@@ -1,53 +1,65 @@
-<ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
-<ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
-
 <!--Search page that allows the user to search for beers using multiple kinds of input: free text or by using the random function-->
+<div class="row">
 
-<h3>Search Beers</h3>
-<div class="container">
-  <div class="row">
-    <div>
-      <input ng-model="query" />
-      <button ng-click="search(query)" class="btn btn-primary ml-3 my-3" ng-init="checked=true" id ="loading" data-toggle="modal" data-target="#myModal">Find</button>
-    </div>
-    <button ng-click="search('rnd')" class="btn btn-primary ml-3 my-3" ng-init="checked=true" id ="loading" data-toggle="modal" data-target="#myModal">Just get me a random beer!</button>
-  </div>
+<div class="col-8" id="search">
 
-  <!-- Showing how many results there is -->
-  {{results}}
-  <br>
-  <hr>
-
-  <!-- Spans a card for each beer in the search results. Makes the picture clickable -->
-
-  <div class="card-columns">
-      <div ng-repeat="beer in beers" ng-init"checked=false" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)" data-toggle="popover" data-title="beer.name" data-content="">
-          <a href="#!/selectedBeer/{{beer.id}}" >
-              <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
-          </a>
-          <div class="card-block">
-              <h6 class="card-title">{{beer.name}}</h6>
-              <a href="#!/selectedBeer/{{beer.id}}" class="btn btn-sm btn-primary">View more</a>
-              <button ng-click="addBeer(beer.id)" class="btn btn-sm btn-primary">Add Beer</button>
-          </div>
+  <h3>Search Beers</h3>
+  <div class="container">
+    <div class="row">
+      <div class="dropdown">
+        <input ng-model="query" />
+        <button ng-click="search(query)" class="btn btn-primary ml-3 my-3" ng-init="checked=true" id ="loading" data-toggle="modal" data-target="#myModal">Find</button>
       </div>
-  </div>
+      <button ng-click="search('rnd')" class="btn btn-primary ml-3 my-3" ng-init="checked=true" id ="loading" data-toggle="modal" data-target="#myModal">Just get me a random beer!</button>
+    </div>
+
+    <!-- Showing how many results there is -->
+    {{results}}
+    <br>
+
+    <hr>
+
+    <!-- Spans a card for each beer in the search results. Makes the picture clickable -->
+
+    <div class="card-columns">
+        <div ng-repeat="beer in beers" ng-init"checked=false" class="card" ui-draggable="true" drag="beer.id" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate(beer.id, $data)" data-toggle="popover" data-title="beer.name" data-content="">
+            <a href="#!/selectedBeer/{{beer.id}}" >
+
+                <img img class="card-img-top img-fluid" ng-src="{{beer.labels.large}}" />
+            </a>
+            <div class="card-block">
+                <h6 class="card-title">{{beer.name}}</h6>
+                <a href="#!/selectedBeer/{{beer.id}}" class="btn btn-sm btn-primary">View more</a>
+                <button ng-click="addBeer(beer.id)" class="btn btn-sm btn-primary">Add Beer</button>
+            </div>
+        </div>
+    </div>
 
 
- <!-- While searching, a modal i spaned to indicate there is a process going on. Shows the proper status message from SearchCtrl-->
-   <span ng-if="checked" class="animate-if">
-    <div class="modal" id="myModal" role="dialog">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">{{status}}</h4>
+   <!-- While searching, a modal i spaned to indicate there is a process going on. Shows the proper status message from SearchCtrl-->
+     <span ng-if="checked" class="animate-if">
+      <div class="modal" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{{status}}</h4>
+            </div>
+            <div class="modal-body">
+              <img img class="card-img-top img-fluid" ng-src="../img/loading-beer.gif" />
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="cancelAPICall()" data-dismiss="modal">Cancel</button>
           </div>
-          <div class="modal-body">
-            <img img class="card-img-top img-fluid" ng-src="../img/loading-beer.gif" />
-          </div>
-          <button type="button" class="btn btn-primary" ng-click="cancelAPICall()" data-dismiss="modal">Cancel</button>
         </div>
       </div>
+    </span>
+  </div>
+</div>
+<div class="col-4">
+    <div class="row">
+      <ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
     </div>
-  </span>
+    <div class="row">
+      <ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
+    </div>
+</div>
 </div>
