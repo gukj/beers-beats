@@ -1,5 +1,24 @@
+.wrapper {
+   position: relative;
+}
+
 .wrapper:hover{
-	background: #CD5C5C;
+	background: #D3D3D3;
+}
+
+.wrapper:hover .btn-danger{
+	opacity: 1;
+}
+
+.btn-danger {
+
+    top: 0px;
+    right: 7px;
+    opacity: 0;
+}
+
+.padding {
+	padding-left: 15px;
 }
 
 .fa-minus {
@@ -26,6 +45,22 @@
     text-align: center;
 }
 
+.footer-widget {
+    border: 1px solid #444;
+    height: 100%;
+    width: 100%;
+}
 
+.dyn-height {
+    
+    max-height: 350px;
+    overflow-y:auto;
+    width: 170%;
+}
+
+.help-message {
+  background-color: white;
+  outline: 2px dashed black;
+}
 
 
