@@ -1,7 +1,6 @@
 <!--Beer view, showing only the beers selected in the previous views, as well as some information about each beer-->
 
 <h2>Your beers</h2>
-<hr>
 
 <div ng-repeat="beer in beers() track by $index">
 	<hr>
@@ -18,22 +17,4 @@
 	<br>
 	<br>
 	<br>
-</div>
-
-<!-- Error handling if the user is not loged in with spotify, redirectes to login page-->
-<div ng-init="checked=true" id ="myModal" data-toggle="modal" data-target="#errorModal">
-	<span ng-if="checked" class="animate-if">
-   <div class="modal" id="errorModal" role="dialog">
-     <div class="modal-dialog modal-sm">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h4 class="modal-title">{{status}}</h4>
-         </div>
-         <div class="modal-body">
-           <img img class="card-img-top img-fluid" ng-src="../img/logo.svg" />
-         </div>
-        </div>
-      </div>
-    </div>
-  </span>
 </div>

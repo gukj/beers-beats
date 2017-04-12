@@ -1,12 +1,13 @@
 beersBeatsApp.controller('selectedBeerCtrl', function($scope, model, $routeParams){
 
+	var _this = this;
 	var id = $routeParams.beerId;
 
 	model.BeerByID.get({id:id},function(data){
 		$scope.beer = data
 		$scope.status = "";
 	},function(data){
-		$scope.status = "There was an error, please try again.";
+		$scope.status = "There was a request error, please try again!";
 		_this.openError();
 	});
 
@@ -17,6 +18,6 @@ beersBeatsApp.controller('selectedBeerCtrl', function($scope, model, $routeParam
 	//Opens error message on screen
   	_this.openError = function(){
     	angular.element('#errorModal').modal('show');
-  }
+  	}
 
 });

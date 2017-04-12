@@ -18,7 +18,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 /* STATIC VAR DECLERATIONS */
 
-//Saves token for specific session. When token runs out, you have to login again to continuous use.
+	//Saves token for specific session. When token runs out, you have to login again to continuous use.
 	if ($routeParams.access_token){
 		var access_token = $routeParams.access_token;
 	}else{
@@ -66,11 +66,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 										'spotify' // Malternative Beverages];
 										];
 
-	/* API CALLS */
+	/* BREWERY API CALLS */
 
 //get beer object by name
 //INPUT: name of beer
-	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=1722d4f3f0dfba6a314eef2999401cce',{},{
+	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			isArray: true,
@@ -90,7 +90,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 //get beer object by id
 //INPUT: id of beer
-	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=1722d4f3f0dfba6a314eef2999401cce',{},{
+	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
 	    get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -115,14 +115,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				}
 				return tmp.data;
 				}catch(err){
-					console.log('There was an request error, please try again');
+					console.log('There was an request error: ', err);
 				}
     	}
     }
   });
 
 	//get random beer
-	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=1722d4f3f0dfba6a314eef2999401cce',{},{
+	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81133d383189d0cda162226936b0bc2e',{},{
     get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -135,7 +135,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				  	}
 					return tmp.data;
 				}catch(err){
-				console.log('There was an request error, please try again');
+				console.log('There was an request error: ', err);
 			}
     }
 }
@@ -143,7 +143,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//get beer categoryId from a certain beer by name
 	//INPUT: name of beer
-	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=1722d4f3f0dfba6a314eef2999401cce',{},{
+	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
 		get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -156,9 +156,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	});
 
 
-	//---SPOTIFY API
+	/* SPOTIFY API CALLS*/
 
-	//console.log($routeParams.access_token);
 	//get playlist given an id
 	//INPUT: username of creator
 	//		 id of playlist
@@ -259,7 +258,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         if (!thisFromCookie) {
             localBeerBag.push(beer);
             localStorage.setObj('localBeerBag', localBeerBag);
-			console.log(localBeerBag);
+			//console.log(localBeerBag);
         }
         // END: Add beer to localStorage
         var id = beer;
@@ -296,7 +295,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//Removes one beer from beerbag
 	//INPUT: beerid
 	this.deselectBeer = function(beerID){
-		//console.log('id', beerID);
 
     // Remove beer from localStorage
     var localBeerBagIndex = localBeerBag.indexOf(beerID);
@@ -354,7 +352,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//Toggles the text display of a beer object
 	this.toggleBeerText = function(beerID){
 		//find object in this.selectedBeers
-		//console.log('toggle object', _this.selectedBeers[beerID])
 		if ( _this.selectedBeers[beerID]['beer']['textExists'] == true) {
 			//console.log('first if');
 
@@ -395,11 +392,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
   		var beer_counter = 0;
 
   		for (var key in _this.selectedBeers) {
-  			console.log('inside');
+  			//console.log('inside');
   			beer_counter += _this.selectedBeers[key].value;
   		}
 
-  		console.log('no', beer_counter);
+  		//console.log('no', beer_counter);
 
   		return beer_counter;
   	}
