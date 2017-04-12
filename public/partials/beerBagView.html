@@ -1,18 +1,21 @@
 <!--Sidebar showing the currently selected beers, which also allows the user to remove beers-->
 
-<h3>Beer Bag: {{counting()}} </h3> 
-
+<h4>Beer Bag: {{counting()}} </h4>
 <hr>
+<div class="text-center">
+	<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beer Bag</a>
+</div>
+<br>
 
 <!-- Show the beers -->
 <div class="dyn-height">
-            
+
 	<div class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
 
 		<br>
 		<br>
 			<div class="col-12">
-			
+
 				<div ng-repeat="beer in beerBag">
 				<div class="wrapper">
 
@@ -53,16 +56,10 @@
 			        <br>
 			    </div>
 				</div>
-			</div>			
+			</div>
 
 		<br>
 		<br>
 
 	</div>
-</div>
-
-
-<div class="centerize">
-	<br>
-	<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beer Bag</a>
 </div>

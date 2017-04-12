@@ -1,11 +1,11 @@
 <!--Beer view, showing only the beers selected in the previous views, as well as some information about each beer-->
 
-<h2>Your beers</h2>
+<h3>Your Beers</h3>
 
 <div ng-repeat="beer in beers() track by $index">
 	<hr>
-	<h3>{{beer.nameDisplay}}</h3>
-	<h4>{{beer.style.category.name}} </h4>
+	<h4>{{beer.nameDisplay}}</h4>
+	<h5>{{beer.style.category.name}} </h5>
 	<br>
 	<div class="row">
 	<div class="col"><img class="card-img-top img-thumbnail" ng-src="{{beer.labels.medium}}" /> </div>

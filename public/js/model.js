@@ -27,6 +27,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	}
 
 	var _this = this;
+  this.selectedKey = '';
 
 	this.selectedBeers = {}; //current selected beers
 
@@ -70,7 +71,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 //get beer object by name
 //INPUT: name of beer
+
 	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
+
     get: {
 			method: 'GET',
 			isArray: true,
@@ -392,12 +395,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
   		var beer_counter = 0;
 
   		for (var key in _this.selectedBeers) {
-  			//console.log('inside');
   			beer_counter += _this.selectedBeers[key].value;
   		}
-
-  		//console.log('no', beer_counter);
-
   		return beer_counter;
   	}
 
@@ -451,6 +450,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			var p = playlist[selectedID-1];
 			var c = creators[selectedID-1];
 
+      this.selectedKey = selectedID-1;
 			this.selectPlaylist(p,c);
 
 		} else{
@@ -517,6 +517,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         for (var i = 0; i < localBeerBag.length; i++) {
             _this.selectBeer(localBeerBag[i], true);
         }
+    }
+
+    this.getPlaylistID = function(){
+      return this.playlistIDs[this.selectedKey];
+    }
+
+    this.getCreatorID = function(){
+      return this.playlistCreators[this.selectedKey];
     }
 	// END: Set beers from cookie
 

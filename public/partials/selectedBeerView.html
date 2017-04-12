@@ -3,10 +3,10 @@ vangborg-->
 <ng-include src="'partials/beerBagView.html'" ng-controller="beerBagCtrl"></ng-include>
 <ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
 
-<h2>Beer</h2>
+<h3>Beer</h3>
 <hr>
 
-<h3>{{beer.nameDisplay}}</h3>
+<h4>{{beer.nameDisplay}}</h4>
 <div class="row">
 	<div class="col">
 		<img class="card-img-top img-thumbnail" ng-src="{{beer.labels.medium}}" />
@@ -27,7 +27,7 @@ vangborg-->
 </div>
 <br>
 <br>
-	<h4>Description</h4>
+	<h5>Description</h5>
 	<p>{{beer.style.description}}</p>
 	<br>
 	<p>Category: {{beer.style.category.name}}</p>
