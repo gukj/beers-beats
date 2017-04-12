@@ -31,3 +31,25 @@ vangborg-->
 	<p>{{beer.style.description}}</p>
 	<br>
 	<p>Category: {{beer.style.category.name}}</p>
+
+	<!-- User feedback if the api response fails-->
+<div ng-init="checked=true" id ="myModal" data-toggle="modal" data-target="#errorModal">
+	<span ng-if="checked" class="animate-if">
+   <div class="modal" id="errorModal" role="dialog">
+     <div class="modal-dialog modal-sm">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h4 class="modal-title">{{status}}</h4>
+         </div>
+         <div class="modal-body">
+           <img img class="card-img-top img-fluid" ng-src="../img/logo.svg" />
+         </div>
+         <div class="text-center pt-5">
+			<ng-include src="'partials/searchView.html'"/>
+		</div>
+        </div>
+      </div>
+    </div>
+  </span>
+</div>
+
