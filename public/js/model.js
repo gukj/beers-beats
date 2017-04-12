@@ -1,4 +1,5 @@
-//Get data from spoitfy and beer API respectively
+//model.js is the heart of the application. It retrieves data from spotify and brewery API respectively and uses it
+//to generate playlists
 
 beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
