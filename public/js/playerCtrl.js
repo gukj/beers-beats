@@ -1,15 +1,13 @@
 beersBeatsApp.controller('playerCtrl', function($scope, model){
 
-    // Sort out stuff not needed
-    //$scope.spotifyPlaylistSongs = $scope.playlistFromSpotify.tracks.items; //this is what i want to do with api
-
-    // Return for ng-repeat
+    //Returns current generated playist for ng-repeat
     $scope.getPlaylist = function() {
         var data = model.getCurrentPlaylist();
         if (data){
             $scope.spotifyPlaylistSongs = data.playlist.tracks.items;
         }else{
-            $scope.spotifyPlaylistSongs = null; //TODO: Show something instead of just empty rows?
+            //TODO: Show something instead of just empty rows?
+            $scope.spotifyPlaylistSongs = null; 
         
         }
         return $scope.spotifyPlaylistSongs;
