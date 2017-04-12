@@ -30,7 +30,7 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
           $scope.results = "Showing " + data.length + " results"; //Shows how many search results there is
           _this.closeModal(); // Close the modal
         }
-      },function(data){ // Error handeling
+      },function(data){ // Error handling
           $scope.status = "There was an error";
       });
     }
