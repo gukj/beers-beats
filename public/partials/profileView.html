@@ -1,5 +1,6 @@
-<!-- profileView -->
-<h3>{{profile.display_name}}</h3> <!-- Populates page with data from profileCtrl -->
+<!-- profileView. Shows the details of the spotify user currently logged in -->
+<!-- Populates page with data from profileCtrl -->
+<h3>{{profile.display_name}}</h3> 
 <div class="container">
 	<hr>
 	<br>
@@ -22,6 +23,7 @@
 	</div>
 
 
+	<!-- Error message if no user is logged in -->
 	<div ng-init="checked=true" id ="myModal" data-toggle="modal" data-target="#errorModal">
     <span ng-if="checked" class="animate-if">
      <div class="modal" id="errorModal" role="dialog">
@@ -32,9 +34,9 @@
            </div>
            <div class="modal-body">
              <img img class="card-img-top img-fluid" ng-src="../img/logo.svg" />
-						 <div class="text-center pt-5">
-							 <ng-include src="'/partials/spotifyAuthView.html'"/>
-						 </div>
+				 <div class="text-center pt-5">
+					 <ng-include src="'/partials/spotifyAuthView.html'"/>
+				 </div>
         </div>
       </div>
     </span>

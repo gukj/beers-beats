@@ -4,6 +4,7 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
   var source = "";
   $scope.beerBag = model.getSelectedBeersAndValue();
 
+  /* -- Drag-n-drop --*/
   $scope.onDrop = function(){
     console.log("dropped " + source + " on " + target);
     model.selectBeer(source);
@@ -15,7 +16,9 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
     source = s;
     return (target !== source && target == 'beerBag');
   };
+  /* -- END Drag-n-drop -- */
 
+  //Remove a beer from beerBag
   $scope.removeBeer = function(beerID) {
     model.deselectBeer(beerID);
   }

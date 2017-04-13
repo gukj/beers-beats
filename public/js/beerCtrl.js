@@ -4,13 +4,13 @@ beersBeatsApp.controller('beerCtrl', function($scope, model){
 		return model.getSelectedBeers();
 	}
 
+	//Show more or less info-text for a beer
 	$scope.toggleText = function(id){
-		console.log('toggle id', id);
 		model.toggleBeerText(id);
 	}
 
+	//Remove a beer from beerBag
 	$scope.remove = function(id){
-		console.log('model id', id);
 		model.deselectBeer(id);
 	}
 });
