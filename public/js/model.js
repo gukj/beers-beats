@@ -256,7 +256,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				var tmp =  angular.fromJson(data);
 
 				if (!tmp.images){ //if there is no profile pic to show, set default image
-					tmp.images.push({ url: '../img/logo.svg'});
+					var image = [];
+					image.push({ url: '../img/logo.svg'});
+					tmp['images'] = image;
 				}
 				return tmp;
 			}
