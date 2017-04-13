@@ -69,7 +69,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 										'spotify' // Malternative Beverages];
 										];
 
-	
+
 	/* ---- BREWERY API CALLS ---- */
 
 	//Get beer object by name
@@ -100,7 +100,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
 
-				try{ 
+				try{
 					if (tmp.data.labels == null){ //If beer has no image, set default icons
 					 	tmp.data['labels'] = {	large : '../img/logo.svg',
 											medium : 'http://revistarumo.com.br/upload/site_explore/001%20(167).jpg',
@@ -154,7 +154,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 				} catch(err){
 					console.log('There was an request error: ', err);
 				}
-    		}	
+    		}
 		}
   	});
 
@@ -194,7 +194,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//get a playlist given playlist name
 	//INPUT: name of playlist
-	//RETURNS: playlist id 
+	//RETURNS: playlist id
 	this.PlaylistsByName = $resource('https://api.spotify.com/v1/search?q=:name&type=playlist',{},{
 		get: {
 			method: 'GET',
@@ -254,7 +254,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 			headers: {'Authorization': 'Bearer ' + access_token },
 			transformResponse: function(data){
 				var tmp =  angular.fromJson(data);
-				
+
 				if (!tmp.images){ //if there is no profile pic to show, set default image
 					tmp.images.push({ url: '../img/logo.svg'});
 				}
@@ -266,10 +266,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* ---- MODEL FUNCTIONS BEER ---- */
 
-
-	//TODO: add playlists to favourites
-
-	//TODO: add beer-playlist combo to favourites
 
 	this.selectBeer = function(beer, fromCookie) {
         // Add a beer to localStorage
@@ -284,7 +280,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
         this.BeerByID.get({
             id: id
         }, function(data) {
-            if (id in _this.selectedBeers) { 
+            if (id in _this.selectedBeers) {
             	//If we already have a beer of this type in our beerBag, we increment its value
                 _this.selectedBeers[id].value = _this.selectedBeers[id].value + 1;
             } else { //If we don't have a beer of this type in our beerBag, we add a new "local" object
