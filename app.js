@@ -12,7 +12,10 @@ var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-//PASTE 3 SECRET LINES OF CODE HERE TO GET SOPTIFY LOGIN TO WORK
+//PASTE 2 SECRET LINES OF CODE HERE TO GET SOPTIFY LOGIN TO WORK
+var client_id = ''; // Your client id
+var client_secret = ''; // Your secret
+var redirect_uri = 'http://localhost:8888/callback'; // Your redirect URI
 
 
 
