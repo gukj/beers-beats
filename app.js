@@ -12,7 +12,7 @@ var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-//SKRIV IN 3 KODRADER HÄR
+//PASTE 3 SECRET LINES OF CODE HERE TO GET SOPTIFY LOGIN TO WORK
 
 
 

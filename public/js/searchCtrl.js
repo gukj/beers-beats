@@ -8,6 +8,7 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
   $scope.search = function(name) {
     $scope.results = "";
     _this.cModal = false;
+
     //If you search for a random beer, the name == rnd from scope
     if(name == 'rnd'){
       $scope.status = "Searching for the perfect random beer...";
@@ -17,12 +18,15 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
           $scope.beers = {data};
           _this.closeModal(); // Close the modal
         }
+        
         },function(data){
           $scope.status = "There was an error";
       });
+
     } else {
       $scope.status = "Searching for some nice beers...";
       _this.openModal();
+
       //Makes a request with the query in the search field in SearchView.html
       model.BeerByName.get({name:name},function(data){
         if (_this.cModal == false) {// If cancel button is not pressed, populate with data
@@ -30,6 +34,7 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
           $scope.results = "Showing " + data.length + " results"; //Shows how many search results there is
           _this.closeModal(); // Close the modal
         }
+
       },function(data){ // Error handling
           $scope.status = "There was an error";
       });
