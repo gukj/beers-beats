@@ -29,6 +29,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	}
 
 	var _this = this;
+
   	this.selectedKey = '';
 
 	this.selectedBeers = {}; //current selected beers
@@ -72,7 +73,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* ---- BREWERY API CALLS ---- */
 
-	//Get beer object by name
+	//Gets beer object by name
 	//INPUT: name of beer
 	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
 	    get: {
@@ -92,7 +93,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
   	});
 
-	//get beer object by id
+	//Gets beer object by id
 	//INPUT: id of beer
 	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
 	    get: {
@@ -126,7 +127,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
     	}
   	});
 
-	//get a random beer
+	//Gets a random beer
 	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81133d383189d0cda162226936b0bc2e',{},{
     	get: {
 			method: 'GET',
@@ -158,7 +159,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
   	});
 
-	//get beer categoryId from a certain beer by name
+	//Gets beer categoryId from a certain beer by name
 	//INPUT: name of beer
 	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
 		get: {
@@ -175,7 +176,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* ---- SPOTIFY API CALLS ---- */
 
-	//get a playlist given an id
+	//Gets a playlist given an id
 	//INPUT: username of creator
 	//		 id of playlist
 	//RETURNS: whole playlist object
@@ -192,7 +193,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	});
 
-	//get a playlist given playlist name
+	//Gets a playlist given playlist name
 	//INPUT: name of playlist
 	//RETURNS: playlist id
 	this.PlaylistsByName = $resource('https://api.spotify.com/v1/search?q=:name&type=playlist',{},{
@@ -207,46 +208,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		}
 	});
 
-	//INPUT
-	this.AlbumsByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=album',{},{
-		get: {
-			method: 'GET',
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return {
-					tmp,
-				}
-			}
-		}
-	});
-
-	//INPUT
-	this.ArtistsByName = $resource('https://api.spotify.com/v1/search?q=tania%20bowra&type=artist',{},{
-		get: {
-			method: 'GET',
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return {
-					artist : tmp.artists.items,
-				}
-			}
-		}
-	});
-
-	//INPUT
-	this.TracksByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=track',{},{
-		get: {
-			method: 'GET',
-			transformResponse: function(data){
-				var tmp =  angular.fromJson(data);
-				return {
-					tmp,
-				}
-			}
-		}
-	});
-
-	//get the info of the user currently logged in
+	//Gets the account information of userprofile currently logged in
 	//RETURNS: user object
 	this.userProfile = $resource('https://api.spotify.com/v1/me',{},{
 		get: {
@@ -266,8 +228,50 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	});
 
 
-	/* ---- MODEL FUNCTIONS BEER ---- */
+	//Gets albums from search query, [for application extension]
+	//INPUT: search query
+	this.AlbumsByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=album',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					tmp,
+				}
+			}
+		}
+	});
 
+	//Gets albums from search query, [for application extension]
+	//INPUT: search query
+	this.ArtistsByName = $resource('https://api.spotify.com/v1/search?q=tania%20bowra&type=artist',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					artist : tmp.artists.items,
+				}
+			}
+		}
+	});
+
+	//Gets albums from search query, [for application extension]
+	//INPUT: search query
+	this.TracksByName = $resource('https://api.spotify.com/v1/search?q=name:abacab&type=track',{},{
+		get: {
+			method: 'GET',
+			transformResponse: function(data){
+				var tmp =  angular.fromJson(data);
+				return {
+					tmp,
+				}
+			}
+		}
+	});
+
+
+	/* ---- MODEL FUNCTIONS BEER ---- */
 
 	this.selectBeer = function(beer, fromCookie) {
         // Add a beer to localStorage
@@ -390,6 +394,8 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	this.getSelectedBeersAndValue = function(){
 		return this.selectedBeers;
 	}
+
+
 
 	/* ---- MODEL FUNCTIONS PLAYLISTS ---- */
 
@@ -520,12 +526,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		return false;
 	}
 
-  	/* ---- SET BEERBAG FROM COOKIE ---- */
-    if (localBeerBag !== null) {
-        for (var i = 0; i < localBeerBag.length; i++) {
-            _this.selectBeer(localBeerBag[i], true);
-        }
-    }
 
     this.getPlaylistID = function(){
       return this.playlistIDs[this.selectedKey];
@@ -534,7 +534,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
     this.getCreatorID = function(){
       return this.playlistCreators[this.selectedKey];
     }
-	// END: Set beers from cookie
+
+
+  	/* ---- SET BEERBAG FROM COOKIE ---- */
+
+    if (localBeerBag !== null) {
+        for (var i = 0; i < localBeerBag.length; i++) {
+            _this.selectBeer(localBeerBag[i], true);
+        }
+    } // END: Set beers from cookie
 
 	return this;
 

@@ -1,11 +1,15 @@
-<!-- beerBagView -->
-<!--Sidebar showing the currently selected beers, which also allows the user to remove beers-->
+<!-- beerBagView,
+Sidebar showing the currently selected beers, which also allows the user to remove beers-->
 <h3>Beers in BeerBag: {{counting()}} </h3>
 <hr>
 <div class="text-center">
 	<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beers</a>
 </div>
+<div class="text-center">
+		{{emptyMsg}}
+</div>
 <br>
+
 
 <!-- Show the beers -->
 <div class="dyn-height">
@@ -57,9 +61,7 @@
 			    </div>
 				</div>
 			</div>
-
 		<br>
 		<br>
-
 	</div>
 </div>

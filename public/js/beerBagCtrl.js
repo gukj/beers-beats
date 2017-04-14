@@ -6,7 +6,6 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
 
   /* -- Drag-n-drop --*/
   $scope.onDrop = function(){
-    console.log("dropped " + source + " on " + target);
     model.selectBeer(source);
 
   };
@@ -23,16 +22,23 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
     model.deselectBeer(beerID);
   }
 
+
+  //Removes ALL beer with id = beerID from beerBag
   $scope.deleteBeer = function(beerID) {
     model.deleteBeer(beerID);
   }
 
+  //Returns a number of total beer amount
   $scope.counting = function() {
+    if (model.countBeersinBag() === 0){
+      $scope.emptyMsg = "Drag n' drop ze beer here!";
+    } else{
+      $scope.emptyMsg = "";
+    }
     return model.countBeersinBag();
   }
 
   $scope.hideMe = function() {
-
     return model.countBeersinBag() < 0;
 
   }

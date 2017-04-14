@@ -1,4 +1,5 @@
 beersBeatsApp.controller('profileCtrl', function($scope, model, $sce){
+  
   var _this = this;
   this.getProfile = model.userProfile.get({},function(data){
     $scope.status = "";
