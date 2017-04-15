@@ -3,7 +3,8 @@ beersBeatsApp.controller('playerCtrl', function($scope, model){
     //Returns current generated playist for ng-repeat
     $scope.getPlaylist = function() {
         var data = model.getCurrentPlaylist();
-        if (data){
+        var auth = model.isAuthenticated();
+        if (data && auth === true){
             $scope.spotifyPlaylistSongs = data.playlist.tracks.items;
         }else{
             $scope.spotifyPlaylistSongs = null;

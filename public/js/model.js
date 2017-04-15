@@ -20,7 +20,6 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* ---- STATIC VAR DECLERATIONS ----  */
 
-	//Saves token for specific session. When token runs out, you have to login again.
 	if ($routeParams.access_token){
 		var access_token = $routeParams.access_token;
 	}else{
@@ -179,7 +178,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//Gets a playlist given an id
 	//INPUT: username of creator
 	//		 id of playlist
-	//RETURNS: whole playlist object
+	//RETURNS: playlist object
 	this.PlaylistByCreatorAndID = $resource('https://api.spotify.com/v1/users/:username/playlists/:id',{},{
 		get: {
 			headers: {'Authorization': 'Bearer ' + access_token },
@@ -484,7 +483,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 		if (playlistID === _this.pID ) {
 			//already selected -> do nothing
-		} else {
+		} else if (access_token){ //if access_token is null, this must wait for authentication
 			this.PlaylistByCreatorAndID.get({username:username, id:p},function(data){
 				_this.selectedPlaylist[p] = {creator: username, playlist: data}; //save playlist data in dictionary
 				_this.pID = p; //selected playlist ID
@@ -533,6 +532,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
     this.getCreatorID = function(){
       return this.playlistCreators[this.selectedKey];
+    }
+
+    //Saves token for specific session. When token runs out, you have to login again.
+    this.isAuthenticated = function(){
+    	if ($routeParams.access_token){
+			return true; //authenticated
+		}else{
+			return false; //not authenticated
+		}
     }
 
 
