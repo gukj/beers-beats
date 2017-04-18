@@ -6,8 +6,9 @@
   "repository": "https://github.com/gukj/beers-beats",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^0.9.0",
-    "bower": "^1.8.x"
+    "angular-cli-github-pages": "^0.2.0",
+    "bower": "^1.8.x",
+    "http-server": "^0.9.0"
   },
   "main": " app.js",
   "scripts": {
