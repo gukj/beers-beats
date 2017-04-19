@@ -6,6 +6,6 @@ The first thing you do is that you authorize the application with Spotify. After
 Once you've pickad a (or several) beers and put them in your beer bag, the application will generate a Spotify playlist based on your drinking preferences.
 ## How do you use it?
 Go to the [API Tutorial](https://developer.spotify.com/web-api/tutorial/) from Spotify to generate your `client_id`, `client_secret` and `redirect_url`.
-After getting them, paste them on line 16 in the `app.js` file
+After getting them, paste them on line 16 in the `app.js` file. Then `cd` into the folder and run `npm start`. Visit the site at `localhost:8888`
 ## What now?
 Drink beer and enjoy beats.
