@@ -536,7 +536,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
     //Saves token for specific session. When token runs out, you have to login again.
     this.isAuthenticated = function(){
-    	if ($routeParams.access_token){
+    	if (access_token){
 			return true; //authenticated
 		}else{
 			return false; //not authenticated
