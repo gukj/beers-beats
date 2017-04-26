@@ -8,7 +8,7 @@ beersBeatsApp.config( [ '$routeProvider',
             controller: 'homeCtrl'
         } ).
         when( '/home', {
-            templateUrl: 'partials/searchView.html', 
+            templateUrl: 'partials/searchView.html',
             controller: 'searchCtrl'
         } ).
 
@@ -37,6 +37,10 @@ beersBeatsApp.config( [ '$routeProvider',
             templateUrl: 'partials/selectedBeerView.html',
             controller: 'selectedBeerCtrl'
         } ).
+        when( '/about', {
+             templateUrl: 'partials/aboutView.html',
+             controller: 'homeCtrl'
+         } ).
         otherwise( {
             redirectTo: '/home'
         } );
