@@ -13,9 +13,9 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
 //PASTE 2 SECRET LINES OF CODE HERE TO GET SOPTIFY LOGIN TO WORK
-var client_id = ''; // Your client id
-var client_secret = ''; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect URI
+var client_id = 'ca09dab77411472da2a605045c177044'; // Your client id
+var client_secret = 'e9343141dd8d4ff089800679ff46507b'; // Your secret
+var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri ÄNDRAT!
 
 
 
