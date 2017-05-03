@@ -30,8 +30,6 @@ beersBeatsApp.controller('playerCtrl', function($scope, model, $sce){
     }
 
     $scope.openPreview = function(url, name) {
-      console.log(url);
-      console.log(name);
       window.open(url,"Preview of " + name,width=500,height=300)
     }
 
