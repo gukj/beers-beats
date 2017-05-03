@@ -12,19 +12,22 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
     //If you search for a random beer, the name == rnd from scope
     if(name == 'rnd'){
       $scope.status = "Searching for the perfect random beer...";
+      $scope.modalButton = "Cancel";
       _this.openModal();
       model.RandomBeer.get({},function(data){
         if (_this.cModal == false){ // If cancel button is not pressed, populate with data
           $scope.beers = {data};
           _this.closeModal(); // Close the modal
         }
-        
+
         },function(data){
-          $scope.status = "There was an error";
+          $scope.status = "There was an error, please try again";
+          $scope.modalButton = "OK";
       });
 
     } else {
       $scope.status = "Searching for some nice beers...";
+      $scope.modalButton = "Cancel";
       _this.openModal();
 
       //Makes a request with the query in the search field in SearchView.html
@@ -36,7 +39,8 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
         }
 
       },function(data){ // Error handling
-          $scope.status = "There was an error";
+        $scope.status = "There was an error, please try again";
+        $scope.modalButton = "OK";
       });
     }
   }
