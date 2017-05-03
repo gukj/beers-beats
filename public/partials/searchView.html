@@ -29,9 +29,13 @@
                 <h6 class="card-title">{{beer.name}}</h6>
                 <div class="text-center">
                   <div class="row">
-                    <a href="#!/selectedBeer/{{beer.id}}" class="btn btn-sm btn-primary">View more</a>
+                    <div class="col-6">
+                      <a href="#!/selectedBeer/{{beer.id}}" class="btn btn-sm btn-primary">View more</a>
+                    </div>
                     <br>
-                    <button ng-click="addBeer(beer.id)" class="btn btn-sm btn-primary">Add Beer</button>
+                    <div class="col-6">
+                      <button ng-click="addBeer(beer.id)" class="btn btn-sm btn-primary">Add Beer</button>
+                    </div>
                  </div>
                </div>
             </div>
@@ -66,6 +70,9 @@
     <br><br>
     <div class="row">
       <ng-include src="'partials/playerView.html'" ng-controller="playerCtrl"></ng-include>
+    </div>
+    <div class="row">
+      <ng-include src="'partials/spotifyMiniPlayerView.html'" ng-controller="playerCtrl"></ng-include>
     </div>
   </div>
 </div>
