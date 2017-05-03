@@ -47,7 +47,10 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
 
   //Adds beer to beer bag in model
   $scope.addBeer = function(beerID) {
-    model.selectBeer(beerID);
+    model.selectBeer(beerID)
+    }
+
+
   }
 
   //Spans the modal

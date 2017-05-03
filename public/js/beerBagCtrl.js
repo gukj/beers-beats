@@ -38,10 +38,5 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
     return model.countBeersinBag();
   }
 
-  $scope.hideMe = function() {
-    return model.countBeersinBag() < 0;
-
-  }
- 
 
 });
