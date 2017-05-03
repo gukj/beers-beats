@@ -1,17 +1,23 @@
 beersBeatsApp.controller('playerCtrl', function($scope, model, $sce){
 
     //Returns current generated playist for ng-repeat
+    $scope.isLoggedIn = function(){
+      console.log(model.isAuthenticated());
+      if (model.isAuthenticated() == true){
+        return true;
+      }else{
+        return false;
+
+      }
+    }
+
     $scope.getPlaylist = function() {
         var data = model.getCurrentPlaylist();
         var auth = model.isAuthenticated();
         if (data && auth === true){
             $scope.spotifyPlaylistSongs = data.playlist.tracks.items;
-            $scope.checkLoggedIn = "";
         }else{
             $scope.spotifyPlaylistSongs = null;
-            var message = "<div>Go and <a href='/login'>login to Spotify</a> to be able to use preview mode! Not interested in preview? Just hit the button bellow</div>";
-            console.log(message);
-            $scope.checkLoggedIn = $sce.trustAsHtml(message);
 
         }
         return $scope.spotifyPlaylistSongs;
