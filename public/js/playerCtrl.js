@@ -2,7 +2,6 @@ beersBeatsApp.controller('playerCtrl', function($scope, model, $sce){
 
     //Returns current generated playist for ng-repeat
     $scope.isLoggedIn = function(){
-      console.log(model.isAuthenticated());
       if (model.isAuthenticated() == true){
         return true;
       }else{
@@ -29,4 +28,13 @@ beersBeatsApp.controller('playerCtrl', function($scope, model, $sce){
         var seconds = ((ms % 60000) / 1000).toFixed(0);
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
+
+    $scope.openPreview = function(url, name) {
+      console.log(url);
+      console.log(name);
+      window.open(url,"Preview of " + name,width=500,height=300)
+    }
+
+
+
 });
