@@ -74,7 +74,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//Gets beer object by name
 	//INPUT: name of beer
-	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
+	this.BeerByName = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
 	    get: {
 				method: 'GET',
 				isArray: true,
@@ -94,7 +94,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//Gets beer object by id
 	//INPUT: id of beer
-	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81133d383189d0cda162226936b0bc2e',{},{
+	this.BeerByID = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/:id/?key=81f290d3c2a50e872349732640d52269',{},{
 	    get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -127,7 +127,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
   	});
 
 	//Gets a random beer
-	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81133d383189d0cda162226936b0bc2e',{},{
+	this.RandomBeer = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/beer/random/?key=81f290d3c2a50e872349732640d52269',{},{
     	get: {
 			method: 'GET',
 			transformResponse: function(data){
@@ -160,7 +160,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//Gets beer categoryId from a certain beer by name
 	//INPUT: name of beer
-	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81133d383189d0cda162226936b0bc2e',{},{
+	this.BeerCategory = $resource('https://crossorigin.me/http://api.brewerydb.com/v2/search?q=:name&type=beer&key=81f290d3c2a50e872349732640d52269',{},{
 		get: {
 			method: 'GET',
 			transformResponse: function(data){

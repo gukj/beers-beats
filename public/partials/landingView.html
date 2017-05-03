@@ -5,18 +5,21 @@
 			<h1 class="text-center">Welcome to</h1>
 			<br>
 		    <img src="/img/logo.svg" class="d-inline-block align-top pb-5 hidden-sm-down img-fluid" alt="">
-				<p> Start using Beers &amp; Beats by logging in to Spotify. Once logged in, you can start adding beers to your Beer bag and generate some awesome playlists. Enjoy!</p>
+				<p> Start using Beers &amp; Beats by logging in to Spotify. Once logged in, you can start adding beers to your Beer bag and generate some awesome playlists. Do you want more information? Please visit the <a href='#!/about'>About page</a>.  Enjoy!</p>
 		</div>
 		<div class="col-4" style="text-align: center">
 			<!-- Loads Spotify button for authentication -->
 			<br>
 			<br>
+			<div ng-show="!isLoggedIn()">
 		    <div class="text-center pt-5">
 		        <ng-include src="'partials/spotifyAuthView.html'"/>
 		    </div>
 		    <br>
+
 		    <!-- In order for this application to work, it has to access music on Spotify.-->
 		    <p> Please press the button above to login to your Spotify account.</p>
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,8 +1,17 @@
-<!-- playerView, 
+<!-- playerView,
   Playlist sidebar that continuously updates based on which beers are added to the cart.-->
 
 <h3>Preview of Beerified Playlist</h3>
 <hr>
+<!-- show if our function evaluates to false -->
+
+<!-- show if our function evaluates to false -->
+<div ng-show="!isLoggedIn()">
+    <div>
+      Go and <a href='/login'>login to Spotify</a> to be able to use preview mode! Not interested in preview? Just hit the button bellow
+    </div>
+</div>
+
 
 <div class="text-center">
   <a href="#!/playlist" class="btn btn-sm btn-primary">Start listening!</a>
@@ -25,7 +34,7 @@
             <td>{{song.track.name}}</td>
             <td>{{song.track.artists[0].name}}</td>
             <td>{{msToMinSec(song.track.duration_ms)}}</td>
-            <td><a href="{{song.track.preview_url}}"><i class="fa fa-play"><i/></a></td>
+            <td><a href="{{song.track.preview_url}}" target="popup" ng-click="openPreview(song.track.preview_url, song.track.name)"><i class="fa fa-play"><i/></a></td>
       </tr>
   </tbody>
 </table>
