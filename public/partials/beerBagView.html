@@ -5,16 +5,15 @@ Sidebar showing the currently selected beers, which also allows the user to remo
 <div class="text-center">
 	<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beers</a>
 </div>
-<div class="text-center">
+<div class="text-center" ng-show="empty">
 		{{emptyMsg}}
-</div>
-<br>
 
+		<br>
 
 <!-- Show the beers -->
 <div class="dyn-height">
 
-	<div class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
+	<div ng-show="!loading" class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
 
 		<br>
 		<br>
