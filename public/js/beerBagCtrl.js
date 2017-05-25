@@ -3,15 +3,27 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
   var target = "";
   var source = "";
 
+  var _this = this;
   $scope.empty = true;
 
   $scope.beerBag = model.getSelectedBeersAndValue();
 
   /* -- Drag-n-drop --*/
   $scope.onDrop = function(){
-    model.selectBeer(source);
+    if(model.isAuthenticated()){
+      model.selectBeer(source);
+    } else {
+      _this.openError();
+    }
+
 
   };
+
+  //Opens error message on screen
+  _this.openError = function(){
+    angular.element('#errorModal').modal('show');
+  }
+
 
   $scope.dropValidate = function(t, s) {
     target = t;
@@ -33,24 +45,24 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
 
   //Returns a number of total beer amount
   $scope.counting = function() {
-    if (model.countBeersinBag() === 0){
+    if (model.countBeersinBag() == 0){
         $scope.empty = true;
       if(model.gettingBeers){
-        console.log("getting beers");
-        $scope.emptyMsg = "Drag n' drop ze beer here!";
-        //$scope.loading = true;
         $scope.beerBag = model.getSelectedBeersAndValue();
       }else{
-
       }
-
-    } else{
-      console.log("DONE");
+    }else{
       $scope.empty = false;
-      $scope.emptyMsg = "";
     }
     return model.countBeersinBag();
   }
+  $scope.isLoggedIn = function(){
+    if (model.isAuthenticated() == true){
+      return true;
+    }else{
+      return false;
 
+    }
+  }
 
 });

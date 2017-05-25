@@ -2,18 +2,29 @@
 Sidebar showing the currently selected beers, which also allows the user to remove beers-->
 <h3>Beers in BeerBag: {{counting()}} </h3>
 <hr>
-<div class="text-center">
-	<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beers</a>
-</div>
-<div class="text-center" ng-show="empty">
-		{{emptyMsg}}
 
+	<div ng-show="!isLoggedIn()">
+	    <div>
+				These beers won't be saved unless you <br><a href='/login'>login to Spotify</a>.
+				<br><br>
+	    </div>
+	</div>
+</div>
+<div class="text-center">
+		<div ng-show="empty">
+			Drag n' drop ze beer here!
+			<br>
+		</div>
+		<div ng-show="!empty">
+		<a href="#!/beer/" class="btn btn-sm btn-primary">Go to Your Beers</a>
+		</div>
 		<br>
+</div>
 
 <!-- Show the beers -->
 <div class="dyn-height">
 
-	<div ng-show="!loading" class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
+	<div ng-show="!empty" class = "row" ui-draggable="false" drag="beerBag" drag-channel="A" drop-channel="A" ui-on-drop="onDrop()" drop-validate="dropValidate('beerBag', $data)">
 
 		<br>
 		<br>
@@ -63,4 +74,25 @@ Sidebar showing the currently selected beers, which also allows the user to remo
 		<br>
 		<br>
 	</div>
+</div>
+
+
+<div ng-init="checked=true" id ="myModal" data-toggle="modal" data-target="#errorModal">
+	<span ng-if="checked" class="animate-if">
+	 <div class="modal" id="errorModal" role="dialog">
+		 <div class="modal-dialog modal-sm">
+			 <div class="modal-content">
+				 <div class="modal-header">
+					 <h6 class="modal-title">You can not use the beer bag without logging in to Spotify. Please log in so we can start to drink beer!</h6>
+				 </div>
+				 <div class="modal-body">
+					 <img img class="card-img-top img-fluid" ng-src="../img/logo.svg" />
+			 <div class="text-center pt-5">
+				 <ng-include src="'/partials/spotifyAuthView.html'"/>
+			 </div>
+			</div>
+		</div>
+	</div>
+</div>
+	</span>
 </div>
