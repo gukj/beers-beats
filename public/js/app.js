@@ -14,8 +14,8 @@ beersBeatsApp.config( [ '$routeProvider',
 
         when( '/home?access_token', {
 
-            templateUrl: 'partials/home.html',
-            controller: 'homeCtrl'
+            templateUrl: 'partials/profileView.html',
+            controller: 'profileCtrl'
         } ).
         when( '/spotifyMiniPlayer', {
 

@@ -2,6 +2,9 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
 
   var target = "";
   var source = "";
+
+  $scope.empty = true;
+
   $scope.beerBag = model.getSelectedBeersAndValue();
 
   /* -- Drag-n-drop --*/
@@ -31,8 +34,19 @@ beersBeatsApp.controller('beerBagCtrl', function($scope, model){
   //Returns a number of total beer amount
   $scope.counting = function() {
     if (model.countBeersinBag() === 0){
-      $scope.emptyMsg = "Drag n' drop ze beer here!";
+        $scope.empty = true;
+      if(model.gettingBeers){
+        console.log("getting beers");
+        $scope.emptyMsg = "Drag n' drop ze beer here!";
+        //$scope.loading = true;
+        $scope.beerBag = model.getSelectedBeersAndValue();
+      }else{
+
+      }
+
     } else{
+      console.log("DONE");
+      $scope.empty = false;
       $scope.emptyMsg = "";
     }
     return model.countBeersinBag();

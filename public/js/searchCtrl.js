@@ -2,8 +2,6 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
 
   var _this = this;
   _this.cModal = false;
-
-
   //Gets the data from API request
   $scope.search = function(name) {
     $scope.results = "";
@@ -47,11 +45,8 @@ beersBeatsApp.controller('searchCtrl', function($scope, model){
 
   //Adds beer to beer bag in model
   $scope.addBeer = function(beerID) {
-    model.selectBeer(beerID)
+    model.selectBeer(beerID);
     }
-
-
-  }
 
   //Spans the modal
   this.openModal = function(){

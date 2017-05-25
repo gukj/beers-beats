@@ -3,8 +3,11 @@
 
 beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
+	this.database;
+	this.username = undefined;
+
 	/* ---- COOKIE CHECKS ---- */
-    Storage.prototype.setObj = function(key, obj) {
+  /*  Storage.prototype.setObj = function(key, obj) {
         return this.setItem(key, JSON.stringify(obj))
     }
     Storage.prototype.getObj = function(key) {
@@ -14,7 +17,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
     if (localBeerBag === null) {
         localBeerBag = [];
         localStorage.setObj('localBeerBag', localBeerBag);
-    }
+    }*/
 	/* END: COOKIE CHECKS */
 
 
@@ -29,13 +32,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	var _this = this;
 
-  	this.selectedKey = '';
+  this.selectedKey = '';
 
 	this.selectedBeers = {}; //current selected beers
 
 	this.selectedPlaylist = {}; //locally stored playlists for fast access
 
 	this.pID = ''; //id of current "to display" playlist
+
+	this.savedPlaylists = [];
 
 	this.playlistIDs = ['6S9xIadSkBAUP5wpOaArZc', // British Origin Ales
 										'2xqLn5C8UBdG63mmy4i8QQ', // Irish Origin Ales
@@ -273,15 +278,9 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	/* ---- MODEL FUNCTIONS BEER ---- */
 
-	this.selectBeer = function(beer, fromCookie) {
-        // Add a beer to localStorage
-				var done = false;
-        var thisFromCookie = (typeof fromCookie === 'undefined') ? false : fromCookie;
-        if (!thisFromCookie) {
-            localBeerBag.push(beer);
-            localStorage.setObj('localBeerBag', localBeerBag);
-        }
-        // END: Add beer to localStorage
+
+
+	this.selectBeer = function(beer) {
 
         var id = beer;
         this.BeerByID.get({
@@ -310,6 +309,33 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
                 }
 
             }
+						_this.database.ref('users/'+_this.username+'/beerbag/'+id).set({
+
+							value: _this.selectedBeers[id].value
+
+						}
+						);
+
+						_this.database.ref('users/'+_this.username+'/beerbag/'+id+'/beer').set({
+							id: id,
+							name: _this.selectedBeers[id]['beer']['name'],
+							textExists: _this.selectedBeers[id]['beer']['textExists'],
+							hidden: _this.selectedBeers[id]['beer']['hidden'],
+							maxTextLength: _this.selectedBeers[id]['beer']['maxTextLength'],
+							infoText: _this.selectedBeers[id]['beer']['infoText'],
+							isOrganic : _this.selectedBeers[id]['beer']['isOrganic'],
+							labels : _this.selectedBeers[id]['beer']['labels'],
+							style : _this.selectedBeers[id]['beer']['style'],
+							value: _this.selectedBeers[id].value
+
+						}
+						);
+
+
+						/*for(key in _this.selectedBeers[id]){
+						_this.database.ref('users/'+_this.username+'/beerbag').set(
+
+						);}*/
             _this.generatePlaylist();
         });
     }
@@ -318,27 +344,11 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	//INPUT: beerid of beer to remove
 	this.deselectBeer = function(beerID){
 
-	    // Remove beer from localStorage
-	    var localBeerBagIndex = localBeerBag.indexOf(beerID);
-	    if (localBeerBagIndex != -1) {
-	        localBeerBag.splice(localBeerBagIndex, 1);
-	    }
-	    localStorage.setObj('localBeerBag', localBeerBag);
-	    // END: Remove beer from localStorage
-
 	    //If we have several of one beer, we must first decrement the amount
 	    _this.selectedBeers[beerID].value = _this.selectedBeers[beerID].value - 1;
 
 	    //If there was only one beer of this type, we remove it from the beer bag
 	    if (_this.selectedBeers[beerID].value < 1) {
-
-						//Delete beer from localStorage
-						for(var i = localBeerBag.length-1; i--;){
-							if (localBeerBag[i] === beerID) {
-								localBeerBag.splice(i, 1);
-							}
-						}
-						localStorage.setObj('localBeerBag', localBeerBag);
 
 
 	          //Remove the beer
@@ -349,18 +359,15 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 	        for (key in _this.selectedBeers) {
 	            _this.selectedBeers[key]['beer']['id'] = key;
 	        }
+					this.database.ref('users/'+this.username+'/beerbag').set({
+						beerbag: _this.selectedBeers
+					});
 	        _this.generatePlaylist(); //re-generate playlist based on the updated beerBag
 	    }
 
 	//Removes a beer completely from BAG/favourites
 	//INPUT: beerid of beer to remove
 	this.deleteBeer = function(beerID){
-		for(var i = localBeerBag.length-1; i--;){
-			if (localBeerBag[i] === beerID) {
-				localBeerBag.splice(i, 1);
-			}
-		}
-		localStorage.setObj('localBeerBag', localBeerBag);
 
 		//Remove the beer
 		delete _this.selectedBeers[beerID]; //this returns true
@@ -369,12 +376,14 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 		for(key in _this.selectedBeers){
 			_this.selectedBeers[key]['beer']['id'] = key;
 		}
+		this.database.ref('users/'+this.username+'/beerbag/'+beerID).remove();
 		_this.generatePlaylist(); //re-generate playlist based on the updated beerBag
 	}
 
 	//Returns all selected beer objects, i.e. the beerBag
 	this.getSelectedBeers = function(){
 		var beers = [];
+		console.log(_this.selectedBeers);
 		for (key in _this.selectedBeers){
 			beers.push(_this.selectedBeers[key].beer);
 		}
@@ -401,6 +410,7 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
 
 	//Returns all selected beers with their respective amounts, i.e. how many we have of each
 	this.getSelectedBeersAndValue = function(){
+		this.fetchData();
 		return this.selectedBeers;
 	}
 
@@ -531,23 +541,73 @@ beersBeatsApp.factory('model', function($resource, $cookieStore, $routeParams){
       return this.playlistCreators[this.selectedKey];
     }
 
-    //Saves token for specific session. When token runs out, you have to login again.
-    this.isAuthenticated = function(){
+
+		var first = true;
+		this.isAuthenticated = function(){
     	if (access_token){
-			return true; //authenticated
-		}else{
-			return false; //not authenticated
+				if(first){
+					first = false;
+					this.userProfile.get({},function(data){
+						_this.username = data.id;
+						},function(data){
+						});
+						this.fetchData();
+
+				}
+				return true; //authenticated
+			}else{
+				return false; //not authenticated
+			}
 		}
-    }
+
+		this.fetchData = function(){
+			_this.gettingBeers = true;
+			var ref = this.database.ref('users/'+this.username);
+			ref.once("value", function(snapshot){
+	    	if(snapshot.exists()){
+					//Get beerlists
+			  	var list = [];
+			  	snapshot.child("saved").forEach(function(childsnapshot){
+				  	list.push(childsnapshot.val());
+			  	});
+			  	_this.savedPlaylists=list;
+			  	//Get beerbag
+			  	snapshot.child("beerbag").forEach(function(childsnapshot){
+			  		_this.selectedBeers[childsnapshot.val()['beer'].id] = childsnapshot.val();
+			  	});
+					_this.gettingBeers = false;
+					_this.generatePlaylist();
+				}else{
+	      	console.log("Non exsisting user");
+					_this.gettingBeers = false;
+				}
+	    });
+		}
 
 
-  	/* ---- SET BEERBAG FROM COOKIE ---- */
 
-    if (localBeerBag !== null) {
-        for (var i = 0; i < localBeerBag.length; i++) {
-            _this.selectBeer(localBeerBag[i], true);
-        }
-    } // END: Set beers from cookie
+
+
+
+
+
+
+
+
+	if(firebase.apps.length===0){
+	console.log("init database");
+		var config = {
+			apiKey: "AIzaSyBGTEH8SNgavZbNaVo_FIsISn9VoTwZtKI",
+			authDomain: "beers-beats.firebaseapp.com",
+			databaseURL: "https://beers-beats.firebaseio.com",
+			projectId: "beers-beats",
+			storageBucket: "beers-beats.appspot.com",
+			messagingSenderId: "850790247297"
+		};
+		firebase.initializeApp(config);
+		this.database = firebase.database();
+	}
+
 
 	return this;
 
